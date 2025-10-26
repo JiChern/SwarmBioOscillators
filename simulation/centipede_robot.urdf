@@ -1,0 +1,1889 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="centipede_robot">
+  <material name="silver">
+    <color rgba="0.7 0.7 0.7 1" />
+  </material>
+  <link name="body_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="hip_left_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_1" type="revolute">
+    <parent link="body_1" />
+    <child link="hip_left_1" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_1" type="revolute">
+    <parent link="hip_left_1" />
+    <child link="thigh_left_1" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_1" type="revolute">
+    <parent link="thigh_left_1" />
+    <child link="tibia_left_1" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_1" type="revolute">
+    <parent link="body_1" />
+    <child link="hip_right_1" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_1" type="revolute">
+    <parent link="hip_right_1" />
+    <child link="thigh_right_1" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_1">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_1" type="revolute">
+    <parent link="thigh_right_1" />
+    <child link="tibia_right_1" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_1_to_2" type="revolute">
+    <parent link="body_1" />
+    <child link="body_2" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_2" type="revolute">
+    <parent link="body_2" />
+    <child link="hip_left_2" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_2" type="revolute">
+    <parent link="hip_left_2" />
+    <child link="thigh_left_2" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_2" type="revolute">
+    <parent link="thigh_left_2" />
+    <child link="tibia_left_2" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_2" type="revolute">
+    <parent link="body_2" />
+    <child link="hip_right_2" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_2" type="revolute">
+    <parent link="hip_right_2" />
+    <child link="thigh_right_2" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_2">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_2" type="revolute">
+    <parent link="thigh_right_2" />
+    <child link="tibia_right_2" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_2_to_3" type="revolute">
+    <parent link="body_2" />
+    <child link="body_3" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_3" type="revolute">
+    <parent link="body_3" />
+    <child link="hip_left_3" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_3" type="revolute">
+    <parent link="hip_left_3" />
+    <child link="thigh_left_3" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_3" type="revolute">
+    <parent link="thigh_left_3" />
+    <child link="tibia_left_3" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_3" type="revolute">
+    <parent link="body_3" />
+    <child link="hip_right_3" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_3" type="revolute">
+    <parent link="hip_right_3" />
+    <child link="thigh_right_3" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_3">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_3" type="revolute">
+    <parent link="thigh_right_3" />
+    <child link="tibia_right_3" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_3_to_4" type="revolute">
+    <parent link="body_3" />
+    <child link="body_4" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_4" type="revolute">
+    <parent link="body_4" />
+    <child link="hip_left_4" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_4" type="revolute">
+    <parent link="hip_left_4" />
+    <child link="thigh_left_4" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_4" type="revolute">
+    <parent link="thigh_left_4" />
+    <child link="tibia_left_4" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_4" type="revolute">
+    <parent link="body_4" />
+    <child link="hip_right_4" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_4" type="revolute">
+    <parent link="hip_right_4" />
+    <child link="thigh_right_4" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_4">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_4" type="revolute">
+    <parent link="thigh_right_4" />
+    <child link="tibia_right_4" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_4_to_5" type="revolute">
+    <parent link="body_4" />
+    <child link="body_5" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_5" type="revolute">
+    <parent link="body_5" />
+    <child link="hip_left_5" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_5" type="revolute">
+    <parent link="hip_left_5" />
+    <child link="thigh_left_5" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_5" type="revolute">
+    <parent link="thigh_left_5" />
+    <child link="tibia_left_5" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_5" type="revolute">
+    <parent link="body_5" />
+    <child link="hip_right_5" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_5" type="revolute">
+    <parent link="hip_right_5" />
+    <child link="thigh_right_5" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_5">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_5" type="revolute">
+    <parent link="thigh_right_5" />
+    <child link="tibia_right_5" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_5_to_6" type="revolute">
+    <parent link="body_5" />
+    <child link="body_6" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_6" type="revolute">
+    <parent link="body_6" />
+    <child link="hip_left_6" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_6" type="revolute">
+    <parent link="hip_left_6" />
+    <child link="thigh_left_6" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_6" type="revolute">
+    <parent link="thigh_left_6" />
+    <child link="tibia_left_6" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_6" type="revolute">
+    <parent link="body_6" />
+    <child link="hip_right_6" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_6" type="revolute">
+    <parent link="hip_right_6" />
+    <child link="thigh_right_6" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_6">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_6" type="revolute">
+    <parent link="thigh_right_6" />
+    <child link="tibia_right_6" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_6_to_7" type="revolute">
+    <parent link="body_6" />
+    <child link="body_7" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_7" type="revolute">
+    <parent link="body_7" />
+    <child link="hip_left_7" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_7" type="revolute">
+    <parent link="hip_left_7" />
+    <child link="thigh_left_7" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_7" type="revolute">
+    <parent link="thigh_left_7" />
+    <child link="tibia_left_7" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_7" type="revolute">
+    <parent link="body_7" />
+    <child link="hip_right_7" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_7" type="revolute">
+    <parent link="hip_right_7" />
+    <child link="thigh_right_7" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_7">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_7" type="revolute">
+    <parent link="thigh_right_7" />
+    <child link="tibia_right_7" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_7_to_8" type="revolute">
+    <parent link="body_7" />
+    <child link="body_8" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_8" type="revolute">
+    <parent link="body_8" />
+    <child link="hip_left_8" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_8" type="revolute">
+    <parent link="hip_left_8" />
+    <child link="thigh_left_8" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_8" type="revolute">
+    <parent link="thigh_left_8" />
+    <child link="tibia_left_8" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_8" type="revolute">
+    <parent link="body_8" />
+    <child link="hip_right_8" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_8" type="revolute">
+    <parent link="hip_right_8" />
+    <child link="thigh_right_8" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_8">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_8" type="revolute">
+    <parent link="thigh_right_8" />
+    <child link="tibia_right_8" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_8_to_9" type="revolute">
+    <parent link="body_8" />
+    <child link="body_9" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_9" type="revolute">
+    <parent link="body_9" />
+    <child link="hip_left_9" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_9" type="revolute">
+    <parent link="hip_left_9" />
+    <child link="thigh_left_9" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_9" type="revolute">
+    <parent link="thigh_left_9" />
+    <child link="tibia_left_9" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_9" type="revolute">
+    <parent link="body_9" />
+    <child link="hip_right_9" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_9" type="revolute">
+    <parent link="hip_right_9" />
+    <child link="thigh_right_9" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_9">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_9" type="revolute">
+    <parent link="thigh_right_9" />
+    <child link="tibia_right_9" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="body_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-06" />
+      <inertia ixx="1.0000000000000002e-10" ixy="0" ixz="0" iyy="1.0000000000000002e-10" iyz="0" izz="1.0000000000000002e-10" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/body11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="body_joint_9_to_10" type="revolute">
+    <parent link="body_9" />
+    <child link="body_10" />
+    <origin xyz="0.0 -0.5 0.0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-0.52" upper="0.52" />
+  </joint>
+  <link name="hip_left_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_left_10" type="revolute">
+    <parent link="body_10" />
+    <child link="hip_left_10" />
+    <origin xyz="0.0 0.0 -0.3" rpy="3.14 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_left_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_left_10" type="revolute">
+    <parent link="hip_left_10" />
+    <child link="thigh_left_10" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_left_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_left_10" type="revolute">
+    <parent link="thigh_left_10" />
+    <child link="tibia_left_10" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="hip_right_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="1.0000000000000002e-06" />
+      <inertia ixx="1.0000000000000003e-11" ixy="0" ixz="0" iyy="1.0000000000000003e-11" iyz="0" izz="1.0000000000000003e-11" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/hip13.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="hip_joint_right_10" type="revolute">
+    <parent link="body_10" />
+    <child link="hip_right_10" />
+    <origin xyz="0.0 0.0 0.3" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="thigh_right_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="8.000000000000002e-07" />
+      <inertia ixx="8.000000000000001e-12" ixy="0" ixz="0" iyy="8.000000000000001e-12" iyz="0" izz="8.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/thigh11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="thigh_joint_right_10" type="revolute">
+    <parent link="hip_right_10" />
+    <child link="thigh_right_10" />
+    <origin xyz="-0.2 0.0 0.36" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+  <link name="tibia_right_10">
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <mass value="5.000000000000001e-07" />
+      <inertia ixx="5.000000000000001e-12" ixy="0" ixz="0" iyy="5.000000000000001e-12" iyz="0" izz="5.000000000000001e-12" />
+    </inertial>
+    <visual>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+      <material name="silver" />
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="/home/jichen/test_env/scripts/simulation/mesh/tibia11.STL" scale="0.01 0.01 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="tibia_joint_right_10" type="revolute">
+    <parent link="thigh_right_10" />
+    <child link="tibia_right_10" />
+    <origin xyz="0.0 0.0 0.31" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit effort="100" velocity="10" lower="-3.14" upper="3.14" />
+  </joint>
+</robot>
