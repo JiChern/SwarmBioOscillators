@@ -1,1 +1,1 @@
-this folder contains the graph-CPG framework and the learning algorithm
+This folder contains models and RL algorithms of the RL agent.
