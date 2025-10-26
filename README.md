@@ -112,7 +112,7 @@ rostopic pub /turning std_msgs/Float32 "data: 0.8"
 
 ## References
 
-<a id="1">[1]</a> 
+<!-- <a id="1">[1]</a> 
 Haitao Yu and Haibo Gao and Liang Ding and Mantian Li and Zongquan Deng and Guangjun Liu (2016). 
 Gait generation with smooth transition using CPG-based locomotion control for hexapod walking robot. 
 IEEE Transactions on Industrial Electronics, 63, 5488-5500.
@@ -125,6 +125,6 @@ Pattern generators with sensory feedback for the control of quadruped locomotion
 <a id="1">[3]</a> 
 Wei Xiao and Wei Wang (2014). 
 Hopf oscillator-based gait transition for a quadruped robot. 
-2014 IEEE International Conference on Robotics and Biomimetics, 2074-2079.
+2014 IEEE International Conference on Robotics and Biomimetics, 2074-2079. -->
 
 
