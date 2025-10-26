@@ -6,7 +6,7 @@ A framework that can generate synchronous waveforms with arbitrary phase-lags in
 
 
 ## Introduction
-This repository includes code implementations of the paper titled "Learning Emergent Synchronization in Coupled Oscillators via Graph Attention and Reinforcement Learning" .
+This repository includes code implementations of the paper titled "Swarm-Inspired Emergent Synchronization in Biologically Coupled Dynamical Systems" .
 
 ## Coupled oscillators controlled by graph attention mechanism
 We reconceptualize the problem of waveform generation in coupled-oscillator systems from the viewpoint of swarm intelligence. Our objective is to enable each unit within the coupled system to learn what it should attend to in order to achieve collective objectives. This approach aligns closely with contemporary research on graph attention mechanisms. Based on our concept, each unit learns a distributed strategy where the input is the decomposition of the global goal from the unit's local perspective, and the output is the attention it allocates to other units. 
