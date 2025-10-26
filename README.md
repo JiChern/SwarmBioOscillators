@@ -85,7 +85,7 @@ python test_model.py
 ```
 # Simulate a centipede robot in pybullet with graph-CPG
 <p align="center">
-  <img src="https://github.com/JiChern/SwarmBioOscillators/tree/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
+  <img src="https://github.com/JiChern/SwarmBioOscillators/blob/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
 </p>
 
 
