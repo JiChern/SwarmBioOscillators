@@ -152,13 +152,12 @@ if __name__ == '__main__':
     fd = 64
 
     # Initialize policy network
-    model = Policy(state_dim=16+8, action_dim=8, heads=heads, feature_dim=fd)
+    model = Policy(heads=heads, feature_dim=fd)
 
     # Load model checkpoint 
     cwd = os.getcwd()
     checkpoint = torch.load(cwd+'/model_params/model-8-64.pt', weights_only=True)
 
-    # checkpoint = torch.load('/home/jichen/test_env/scripts/train/checkpoints/multi-goal-1-512/model-2050000-CPG_r_i.pt', weights_only=True)
 
 
     model.load_state_dict(checkpoint['policy_state_dict'])
@@ -171,10 +170,10 @@ if __name__ == '__main__':
     # Desired phase lags (equally spaced around the unit circle)
     x_dp = np.arange(0,1,1/cell_num)
 
-    # Optional: Randomize desired phase lags (commented out by default)
+    # Optional: Any desired phase lags (commented out by default)
     # You can also set the x_dp to be random angles with \theta_i = p*1/N with p is a random integer between 0 to N
     # rand_angles = np.random.randint(0,cell_num,cell_num)
-    # rand_angles[0]=0
+    # rand_angles[0]=0  # First element must be 0 as each element indicates the disired phase lag between this cell and the first cell.
     # rand_angles = rand_angles/cell_num
     # x_dp = rand_angles
 
