@@ -99,16 +99,12 @@ class Policy(nn.Module):
     produces actions through a linear output layer with tanh activation to ensure bounded actions.
 
     Args:
-        state_dim (int): Dimension of the node feature space (e.g., 2 for x,y coordinates).
-        action_dim (int): Dimension of the action space (e.g., 2 for controlling x,y directions).
         heads (int, optional): Number of attention heads in the GNN (if applicable). Defaults to 1.
         feature_dim (int): Dimension of the intermediate feature representation learned by the GNN. Defaults to 512.
     """
 
-    def __init__(self, state_dim, action_dim, heads=1, feature_dim=512):
+    def __init__(self, heads=1, feature_dim=512):
         super(Policy, self).__init__()
-        self.action_dim = action_dim
-
         # Custom GNN-based message passing network for graph-CPG (coupled oscillator) environments
         # Input: node features (x_state: 2D), auxiliary features (x_dp: 2D), edge_index
         self.network = ActorNet(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)

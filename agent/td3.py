@@ -76,7 +76,7 @@ class TD3_Agent:
             p.requires_grad = False
 
         # aka actor
-        self.policy = Policy(state_dim, action_dim, heads=heads,feature_dim=feature_dim).to(device)
+        self.policy = Policy(heads=heads,feature_dim=feature_dim).to(device)
         self.target_policy = copy.deepcopy(self.policy)
 
         self.policy.network.optimize_alpha = optimize_alpha
