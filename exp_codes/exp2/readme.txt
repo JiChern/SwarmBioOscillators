@@ -1,1 +1,1 @@
-this folder contains codes for generating the data in Section 2.2
+This folder contains necessary codes for section 2.1
