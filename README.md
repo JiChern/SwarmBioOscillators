@@ -16,13 +16,7 @@ This principle underpins graph-CPG, a coupled oscillator framework where interac
 ```math
 	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{MLP}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
 ```
-where $\mathbf{x}_i \in \mathbb{R}^2$ denotes the state vector of the $i$-th node, and $f: \mathbb{R}^2 \rightarrow \mathbb{R}^2$ models the internal dynamics (e.g., Hopf or Van der Pol oscillator dynamics). The structure inside the multilayer perceptron (MLP) implements a graph attention message-passing mechanism \cite{velivckovic2017graph, brody2021attentive}. To bridge the goal and attention generation, the attention of the $i$-th node to the $j$-th node (for the $k$-th attention head) is computed via a shared attention function $a: \mathbb{R}^{F} \times \mathbb{R}^{F} \rightarrow \mathbb{R}$:  
-
-```math
-	\alpha_{i,j}^k = a\left(\Theta_s^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_s^k \mathbf{x}_i, \Theta_t^{\text{dp},k} \mathbf{x}_{\text{dp}} + \Theta_t^k \mathbf{x}_j\right),  
-``` 
-
-where $\Theta_s^{\text{dp},k}$, $\Theta_t^{\text{dp},k}$, $\Theta_s^k$, and $\Theta_t^k$ are learnable projection matrices. These matrices transform node states $x_i, x_j$ and the desired phase relationships $x_{\text{dp}}$ into a shared $F$-dimensional feature space. The additive structure incorporates a positional encoding technique inspired by Transformers, allowing the attention coefficients to adapt dynamically to the system's states.
+for $i=1,2,\dots,N$, where the dense layer and clamping operation regularize the external coupling term for numerical stability. Concrete definitions of the parameters in Equation~\eqref{eq:graph-cpg-main} and the details of graph-CPG can be found in Methods. The attention coefficients $\alpha_{i,j}^k$ weight the importance of the neighbor node $j$ to the source node $i$, and depend on the current states of both nodes $(\mathbf{x}_i, \mathbf{x}_j)$ as well as their desired phase lags to achieve synchronization $(\theta_i, \theta_j)$. These desired phase lags for achieving synchronization are collected in a vector $\mathbf{x}_{\text{dp}} = [\theta_1, \dots, \theta_N]$, which defines the target emergent phase behavior of the oscillator network, with each oscillator maintaining a specified phase lag $\theta_i$ relative to the first oscillator.
 
 # Installation
 Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric.
