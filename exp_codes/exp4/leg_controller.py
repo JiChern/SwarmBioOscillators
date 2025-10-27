@@ -203,11 +203,11 @@ if __name__ == '__main__':
         # Simulate defective legs at specific steps
         if 800 < step < 1400:
             arr1 = [0, 2, 3, 4, 5]  # Operating legs
-            arr2 = [0, 1/5, 2/5, 3/5, 4/5]  # Phase offsets
+            arr2 = [0, 1/5, 2/5, 3/5, 4/5]  # Desired phase lags for five legs
             leg_controller.defect_legs(arr1, arr2, 0.8)
         elif 1400 <= step < 1900:
             arr1 = [0, 2, 3, 5]  # Operating legs
-            arr2 = [0, 1/2, 1/2, 0]  # Phase offsets
+            arr2 = [0, 1/2, 1/2, 0]  # Desired phase lags for four legs
             leg_controller.defect_legs(arr1, arr2, 0.8)
         elif step >= 1900:
             break
