@@ -1,4 +1,4 @@
-# Graph-CPG
+# Swarm-Inspired Emergent Synchronization in Biologically Coupled Dynamical Systems
 A framework that can generate synchronous waveforms with arbitrary phase-lags in arbitrary size of coupled-oscillator-system. Training is very simple!
 
 
