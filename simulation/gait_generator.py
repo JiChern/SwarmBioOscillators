@@ -67,7 +67,6 @@ if __name__ == '__main__':
     rospy.init_node('gait_generator')
 
 
-
     
     cate = np.arange(0,1,2/cell_num)
 
@@ -80,7 +79,7 @@ if __name__ == '__main__':
     fd = 64  
 
     # Initialize GCPG policy network
-    model = Policy(state_dim=16+8, action_dim=8, heads=heads, feature_dim=fd).to(device)  # Create Policy model and move to device
+    model = Policy(heads=heads, feature_dim=fd).to(device)  # Create Policy model and move to device
 
     # Load model checkpoint 
     cwd = os.getcwd()  # Get current working directory (unused)
