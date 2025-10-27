@@ -14,7 +14,7 @@ In natural swarms---flocking birds, schooling fish, insect colonies---global coo
 This principle underpins graph-CPG, a coupled oscillator framework where interactions are governed by learned attention (Fig.~\ref{fig:intro}d). Analogous to how flocking emerges from simple neighbor-following rules, graph-CPG produces versatile global synchronous behaviors through local attention-weighted coupling. In this model, each oscillator $i$ evolves according to intrinsic dynamics $f(\cdot)$—such as Hopf or Van der Pol oscillators—and an external coupling term $\mathbf{a}_i$ encoding adaptive interactions:
 
 ```math
-	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{MLP}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
+	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{Dense}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
 ```
 for $i=1,2,\dots,N$, where the dense layer and clamping operation regularize the external coupling term for numerical stability. The attention coefficients $\alpha_{i,j}^k$ weight the importance of the neighbor node $j$ to the source node $i$, and depend on the current states of both nodes $(x_i, x_j)$ as well as their desired phase lags to achieve synchronization $(\theta_i, \theta_j)$. These desired phase lags for achieving synchronization are collected in a vector $x_{dp} = [\theta_1, \dots, \theta_N]$, which defines the target emergent phase behavior of the oscillator network, with each oscillator maintaining a specified phase lag $\theta_i$ relative to the first oscillator.
 
