@@ -67,7 +67,7 @@ pip install torch-geometric
 ### Unzip the repo in your local directory.
 Training takes about 4 hours, after that 
 # Train the model
-The provided pre-trained model (located in the 'model_params' folder) requires approximately 10 hours on an RTX 3080 laptop GPU to complete 9e6 training steps. However, after 3–4 hours (around 3e6 steps), it already exhibits initial waveform generation capabilities. You can test the checkpoints using test_model.py.
+The provided model parameters (located in the 'model_params' folder) requires approximately 10 hours on an RTX 3080 laptop GPU to complete 9e6 training steps. However, after 3–4 hours (around 3e6 steps), it already exhibits initial waveform generation capabilities. You can test the checkpoints using test_model.py.
 Use train.py, you can train graph-CPG with differnent number of attention heads and dimensionalities of feature space.
 ```console
 conda activate g_cpg
