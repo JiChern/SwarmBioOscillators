@@ -51,7 +51,7 @@ def get_train_error(cell_num, edge_index, model, env):
     Args:
         cell_num (int): Number of cells (nodes) in the graph (unused in MLP forward).
         edge_index (torch.Tensor): Edge indices for the graph (unused in this MLP version).
-        model (PolicyMLP): Trained MLP policy model.
+        model (V1): Trained MLP policy model.
         env (CPGEnv): CPG environment instance.
 
     Returns:
