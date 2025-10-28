@@ -51,7 +51,7 @@ def get_train_error(cell_num, edge_index, model, env):
     Args:
         cell_num (int): Number of cells (nodes) in the graph.
         edge_index (torch.Tensor): Edge indices for the graph.
-        model (PolicyStateSpace): Trained GNN policy model.
+        model (V0): Trained GNN policy model.
         env (CPGEnv): CPG environment instance.
 
     Returns:
