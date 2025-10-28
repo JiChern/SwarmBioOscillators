@@ -61,12 +61,7 @@ def get_eval_error(cell_num, edge_index, model, env):
 
     Returns:
         numpy.ndarray: Array of cumulative rewards for all targets and seeds.
-    
-    Notes:
-        - Evaluates the model on 4 predefined gait targets (phase lag patterns) for 4 cells.
-        - For each target, runs 10 episodes with random initial states, each 250 steps long.
-        - Rewards measure how well the generated phases match the target (e.g., via phase_distance in env.step).
-        - Generates training rewards to assess model performance during or after training.
+
     """
 
 
