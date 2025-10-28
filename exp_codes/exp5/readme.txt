@@ -1,1 +1,1 @@
-This folder contains all necessary for generating the data of ablation studies
+This folder contains all necessary codes for generating the data of ablation studies
