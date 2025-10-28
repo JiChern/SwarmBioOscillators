@@ -10,6 +10,8 @@ from  torch_geometric.nn.dense.linear import Linear
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 from .actor_net import ActorNet
+from .actor_net_state_space import ActorNetStateSpace
+from .actor_net_v2 import ActorNetV2
 
 
 
@@ -93,7 +95,7 @@ class DoubleQFunc(nn.Module):
 class Policy(nn.Module):
     """A Graph Neural Network (GNN) based policy network (actor) for TD3 in graph-structured environments.
     
-    This policy network uses a custom GNN (ActorNet) to process graph-structured inputs (node features and edge indices) 
+    This policy network uses a custom GNN (ActorNet,graph-CPG) to process graph-structured inputs (node features and edge indices) 
     and outputs continuous actions. It is designed for environments where the state is represented as a graph (e.g., 
     coupled oscillators, molecular structures). The network applies message passing, aggregates node features, and 
     produces actions through a linear output layer with tanh activation to ensure bounded actions.
@@ -105,7 +107,7 @@ class Policy(nn.Module):
 
     def __init__(self, heads=1, feature_dim=512):
         super(Policy, self).__init__()
-        # Custom GNN-based message passing network for graph-CPG (coupled oscillator) environments
+        # Custom GNN-based message passing network for graph-CPG environments
         # Input: node features (x_state: 2D), auxiliary features (x_dp: 2D), edge_index
         self.network = ActorNet(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)
                                 state_channels=2,   # State features per node (e.g., 2D coordinates)
@@ -155,3 +157,147 @@ class Policy(nn.Module):
         out = out.ravel()
         return out
 
+
+class PolicyV2(nn.Module):
+    """ 
+    Standard graph-CPG model of ablation studies, aggregate features in state space.
+
+    Notes:
+    - Input `x` shape: (num_nodes, 4), where first 2 columns are state features (e.g., x, y oscillator states),
+      and last 2 are desired phase lags (e.g., sin, cos encodings).
+    - Output: Flattened tensor of shape (num_nodes * 2), representing actions (e.g., coupling adjustments).
+    - Used in RL or control pipelines for multi-agent/oscillator synchronization.
+    """
+
+    def __init__(self):
+        """
+        Initialize the PolicyV2 network.
+
+        Sets up the internal GNN actor and output linear layer with specific hyperparameters.
+        - ActorNetV2: Configured for 4 input channels (2 state + 2 phase), 512 hidden channels, single head.
+        - No residual connections, dropout=0.2 for regularization.
+        - Output linear layer: Maps 512 hidden features to 2D action space without bias.
+        """
+        super(PolicyV2, self).__init__()  # Call base nn.Module initializer
+        # Initialize the core GNN actor network with specified parameters
+        self.network = ActorNetV2(in_channels=4, state_channels=2, out_channels=512, heads=1, add_self_loops=False, residual=False, dropout=0.2)  # without dropout
+        # Define output linear projection from hidden dimension to action space (2D)
+        self.linear_out = Linear(in_channels=512, out_channels=2, bias=False, weight_initializer='glorot')
+
+
+    def forward(self, x, edge_index, alpha_noise=None):
+        """
+        Forward pass of the policy network.
+
+        Args:
+            x (torch.Tensor): Input node features. Shape (num_nodes, 4), where:
+                - Columns 0-1: State features (x_state, e.g., oscillator coordinates).
+                - Columns 2-3: Desired phase lag encodings (x_dp, e.g., sin/cos).
+            edge_index (torch.Tensor or SparseTensor): Graph edge indices defining connectivity.
+            alpha_noise (Optional[torch.Tensor], optional): Noise to add to attention coefficients (for exploration). Defaults to None.
+
+        Returns:
+            torch.Tensor: Flattened action tensor. Shape (num_nodes * 2), bounded to [-1, 1] via tanh.
+
+        Notes:
+            - Splits input into state and phase components for ActorNetV2.
+            - Applies tanh activation for action bounding.
+            - Output is raveled (flattened) for compatibility with environments expecting 1D actions.
+        """
+
+        # Split input features into phase lags (x_dp) and states (x_state)
+        x_dp = x[:,2:]  # Desired phase lags (columns 2 and beyond)
+        x_state = x[:,0:2]  # State features (first two columns)
+
+
+        # Compute coupling terms using the GNN actor (message passing with attention)
+        x_coupling = self.network(x=x_state, x_dp=x_dp, edge_index=edge_index, alpha_noise=alpha_noise)
+        # Remove any singleton dimensions (e.g., from batch or head squeezing)
+        x_coupling = torch.squeeze(x_coupling)
+        # Project coupling features to action space
+        x_coupling = self.linear_out(x_coupling)
+        # Squeeze again to ensure correct shape (num_nodes, 2)
+        x_coupling = torch.squeeze(x_coupling)
+
+        # Assign to output (for clarity; could be combined)
+        out = x_coupling
+
+        # Apply tanh activation to bound outputs to [-1, 1] (common for continuous actions)
+        out = F.tanh(out)
+        # Flatten the output tensor to 1D (e.g., for environment compatibility)
+        out = out.ravel()
+        return out
+
+class PolicyStateSpace(nn.Module):
+    """ 
+        V0 model of ablation studies, aggregate features in state space.
+    Args:
+        heads (int, optional): Number of attention heads in the GNN (if applicable). Defaults to 1.
+        feature_dim (int): Dimension of the intermediate feature representation learned by the GNN. Defaults to 512.
+    """
+
+    def __init__(self, heads=1, feature_dim=512):
+        super(PolicyStateSpace, self).__init__()
+        # Custom GNN-based message passing network for graph-CPG (coupled oscillator) environments
+        # Input: node features (x_state: 2D), auxiliary features (x_dp: 2D), edge_index
+        self.network = ActorNetStateSpace(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)
+                                state_channels=2,   # State features per node (e.g., 2D coordinates)
+                                out_channels=feature_dim,  # Output feature dimension (intermediate representation)
+                                heads=heads,      # Number of attention heads
+                                add_self_loops=False,   # Do not add self-loops to edges
+                                residual=False,    # No residual connections
+                                dropout=0.2)  # Dropout for regularization
+        
+
+    def forward(self, x, edge_index, alpha_noise=None):
+        """Forward pass: compute actions from graph-structured inputs using the GNN policy.
+        
+        Args:
+            x (torch.Tensor): Node feature tensor of shape (num_nodes, 4), where columns 0-1 are state (x,y) 
+                              and columns 2-3 are auxiliary features (e.g., velocities or phases).
+            edge_index (torch.Tensor): Edge index tensor defining graph connectivity (PyTorch Geometric format).
+            alpha_noise (torch.Tensor, optional): Noise for attention coefficients (if applicable). Defaults to None.
+        
+        Returns:
+            torch.Tensor: Output action tensor of shape (num_nodes * action_dim,) or (batch_size * action_dim,).
+                          Actions are squashed using tanh and flattened.
+        """
+
+        # Split input features into state (x_state: 0-1) and auxiliary (x_dp: 2-3)
+        x_dp = x[:,2:]  # Auxiliary features (e.g., velocities)
+        x_state = x[:,0:2]  # State features (e.g., x,y coordinates)
+
+        # Simplified graph-CPG directly outputs the action
+        x_coupling = self.network(x=x_state, x_dp=x_dp, edge_index=edge_index, alpha_noise=alpha_noise)
+
+        out = x_coupling
+        
+        # Apply tanh activation to bound actions (e.g., to [-1, 1])
+        out = F.tanh(out)  
+        
+        # Flatten the output (e.g., for batch processing)
+        out = out.ravel()
+        return out
+
+class PolicyMLP(nn.Module):
+    """Forward pass: V1 model of ablation studies, computes actions from MLP policy.
+    
+    Args:
+        x (torch.Tensor): Node feature tensor of shape (num_nodes x 4)
+    
+    Returns:
+        torch.Tensor: Output action tensor of shape (num_nodes * action_dim,) or (batch_size * action_dim,).
+                        Actions are squashed using tanh and flattened.
+    """ 
+
+    def __init__(self, state_dim, action_dim, hidden_size=256):
+        super(PolicyMLP, self).__init__()
+        self.action_dim = action_dim
+        self.network = MLPNetwork(state_dim, action_dim, hidden_size)
+        self.tanh = nn.Tanh()
+
+    def forward(self, x):
+        x = self.network(x)
+        x = self.tanh(x)
+
+        return x
