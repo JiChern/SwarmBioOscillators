@@ -1,5 +1,4 @@
 import torch
-import torch_geometric
 import sys, os
 import numpy as np
 
@@ -77,26 +76,26 @@ if __name__ == '__main__':
     data_dir = os.getcwd()+'/data/'
     csvfile = open(data_dir+'/rand_angle_error.csv', 'w')
     writer = csv.writer(csvfile)
+    writer.writerow(['cell_num', 'avg_divergence'])  # Add header for clarity
 
     for i in range(117):
         cell_num = i+4
         env = CPGEnv(cell_nums=cell_num,env_length=500)
         ei = generate_edge_idx(cell_num).to(device)
 
-        divengence_list = []
+        num_experiments = 2 * cell_num
 
-        for i in range(50):
+        for exp in range(num_experiments):
             # Set random desired phase lags
             rand_angles = np.random.randint(0,cell_num,cell_num)
             rand_angles[0]=0
             rand_angles = rand_angles/cell_num
 
             e_out = get_phase_data(cell_num=cell_num, edge_index=ei, model=model,env=env,d0=rand_angles,length=800)
-            e_avg = np.mean(e_out[-100:-1])
-            divengence_list.append(e_avg)
-            print('cell_num: ', cell_num, ' exp: ', i, ' angle_div: ',e_avg)
+            e_avg = np.mean(e_out[-100:])  # Corrected to include the last element (last 100 steps)
+            print('cell_num: ', cell_num, ' exp: ', exp, ' angle_div: ',e_avg)
 
-        writer.writerow(divengence_list)
+            # Write each individual result as a row to make the data flat and handle variable lengths
+            writer.writerow([cell_num, e_avg])
 
- 
-
+    csvfile.close()
