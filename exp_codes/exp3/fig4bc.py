@@ -115,14 +115,14 @@ if __name__ == '__main__':
     csvfile = open(data_dir+'/rand_exp_error'+str(cell_num)+'.csv', 'w')
     writer = csv.writer(csvfile)
 
-    # 100 trials of random x_dps
-    for i in range(100):
+    # 2N trials of random x_dps
+    for i in range(cell_num*2):
         rand_angles = np.random.randint(0,cell_num,cell_num)
         rand_angles[0]=0
         rand_angles = rand_angles/cell_num
 
-        error_control = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=rand_angles,length=1200, Kp=15,Kd=0.6)  # Controlled G-CPG
-        error_no_control = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=rand_angles, length=1200, Kp=0,Kd=0) # Standard G-CPG
+        error_control = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=rand_angles,length=1000, Kp=15,Kd=0.6)  # Controlled G-CPG
+        error_no_control = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=rand_angles, length=1000, Kp=0,Kd=0) # Standard G-CPG
 
 
         SPD_control = np.mean(error_control[-100:-1])
