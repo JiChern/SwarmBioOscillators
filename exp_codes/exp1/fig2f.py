@@ -82,7 +82,8 @@ if __name__ == '__main__':
         cell_num = i+4
         env = CPGEnv(cell_nums=cell_num,env_length=500)
         ei = generate_edge_idx(cell_num).to(device)
-
+        
+        # Evaluated 2 x cell num random targets, as larger networks consists more symmetries and information
         num_experiments = 2 * cell_num
 
         for exp in range(num_experiments):
