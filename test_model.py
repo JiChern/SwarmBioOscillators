@@ -151,7 +151,7 @@ if __name__ == '__main__':
     heads = 8
     fd = 64
 
-    # Initialize policy network
+    # Initialize SCPG network
     model = Policy(heads=heads, feature_dim=fd)
 
     # Load model checkpoint 
