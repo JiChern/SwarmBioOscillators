@@ -98,7 +98,7 @@ conda activate scpg
 cd simulation
 python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
-## Step 3: Adjust the turning of the centipede
+## Step 3: adjust the turning of the centipede
 After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
 ```console
 conda activate scpg
