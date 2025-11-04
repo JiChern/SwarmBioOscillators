@@ -6,11 +6,11 @@ import numpy as np
 import math
 from std_msgs.msg import Float32MultiArray, MultiArrayDimension
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path for importing custom modules
 
-from agent.networks import Policy  # Import graph-CPG architecture (Policy is a GNN model)
+from agent.networks import Policy  # Import SCPG architecture (Policy is a GNN model)
 from env_test import CPGEnv  # Import CPG environment for oscillatory dynamics
 from utils import rearrange_state_vector_hopf  # Utility to rearrange state vectors for Hopf oscillators
 from utils import generate_edge_idx  # Utility to generate edge indices for graph structure
@@ -18,15 +18,15 @@ import matplotlib.pyplot as plt
 import time
 pi = np.pi  # Define pi constant for convenience
 
-class GraphCPG(object):
+class SCPG(object):
     """
-    A class implementing a Graph-based Central Pattern Generator (Graph-CPG) for gait generation.
+    A class implementing a Graph-based Central Pattern Generator (SCPG) for gait generation.
     Uses a GNN policy to compute actions and a CPG environment to simulate oscillatory dynamics.
     Designed to run on a remote PC for controlling a robot via ROS.
     """
     def __init__(self, network, checkpoint, env) -> None:
         """
-        Initialize the Graph-CPG system.
+        Initialize the SCPG system.
 
         Args:
             network (torch.nn.Module): GNN-based policy network (Policy class).
@@ -182,15 +182,15 @@ class GraphCPG(object):
 
 if __name__ == '__main__':
     """
-    Main execution block for running the Graph-CPG system on a remote PC.
+    Main execution block for running the SCPG system on a remote PC.
     Initializes ROS, sets up the CPG environment and GNN model, and runs the gait generation loop.
     Publishes gait patterns to ROS topics and plots state trajectories.
     """
-    rospy.init_node('g_cpg')  # Initialize ROS node named 'g_cpg'
+    rospy.init_node('scpg') 
 
     hz = 50  # Frequency of updates (50 Hz)
 
-    # Initialize Graph-CPG system (8 attention heads)
+    # Initialize SCPG system (8 attention heads)
     heads = 8  
     fd = 64    
     cell_num = 6  
@@ -199,7 +199,7 @@ if __name__ == '__main__':
     checkpoint = torch.load(parent_dir + '/model_params/model-8-64.pt', weights_only=True)  # Load pre-trained weights
     model.load_state_dict(checkpoint['policy_state_dict'])
     env = CPGEnv(cell_nums=cell_num, env_length=500, hz=50) 
-    g_cpg = GraphCPG(network=model, checkpoint=checkpoint, env=env)  
+    scpg = GraphCPG(network=model, checkpoint=checkpoint, env=env)  
 
     r = rospy.Rate(hz)  # Set ROS loop rate to 50 Hz
     ei = generate_edge_idx(cell_num=cell_num)  # Generate edge indices for GNN
@@ -208,15 +208,15 @@ if __name__ == '__main__':
     env.z_mat = np.zeros((cell_num, 2))  
     env.z_mat[0, 0] = 0.1  
     obs = env.z_mat.ravel()  
-    rl_encoding = g_cpg.encoding_angle(g_cpg.desired_lag) 
+    rl_encoding = scpg.encoding_angle(scpg.desired_lag) 
     state = np.concatenate((obs, rl_encoding.ravel()))  
 
     # Lists to store state trajectories for plotting
     x1, x2, x3, x4, x5, x6 = [], [], [], [], [], []
 
     # Initialize ROS publishers for gait data
-    all_gait_pub = rospy.Publisher('g_cpg_gait_all', Float32MultiArray, queue_size=10)  # Publish all phases
-    gait_pub = rospy.Publisher('g_cpg_gait', Float32MultiArray, queue_size=10)  # Publish active cell phases
+    all_gait_pub = rospy.Publisher('scpg_gait_all', Float32MultiArray, queue_size=10)  # Publish all phases
+    gait_pub = rospy.Publisher('scpg_gait', Float32MultiArray, queue_size=10)  # Publish active cell phases
     gait_msg = Float32MultiArray()
     all_gait_msg = Float32MultiArray()
     all_gait_msg.data = np.zeros(6)  # Initialize message for all 6 phases
@@ -229,15 +229,15 @@ if __name__ == '__main__':
         start_time = time.time()  # Track loop execution time
 
         # Print current operating legs and phase lags
-        print('operating legs: ', g_cpg.o_leg_list)
-        print('desired phase lags: ', g_cpg.desired_lag)
+        print('operating legs: ', scpg.o_leg_list)
+        print('desired phase lags: ', scpg.desired_lag)
 
 
         # Compute next state and phase angles
-        next_state, phase = g_cpg.get_phase_data(state)
+        next_state, phase = scpg.get_phase_data(state)
 
         # Publish phases for active cells
-        activated_cells = np.array(g_cpg.o_leg_list, dtype=int)
+        activated_cells = np.array(scpg.o_leg_list, dtype=int)
         activated_phases = phase[activated_cells]
         gait_msg.data = activated_phases
         gait_pub.publish(gait_msg)
