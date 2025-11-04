@@ -2,11 +2,11 @@ import torch
 import sys, os
 import numpy as np
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import Policy # import graph-CPG architecture
+from agent.networks import Policy # import SCPG architecture
 from environment.env import CPGEnv
 from utils import rearrange_state_vector_hopf,generate_edge_idx 
 import matplotlib.pyplot as plt
@@ -21,7 +21,7 @@ walk = np.array([0,0.5,0.75,0.25])
 
 if __name__ == '__main__':
 
-    # Set-up the graph-CPG model, with 8 attention heads
+    # Set-up the SCPG model, with 8 attention heads
     heads = 8
     fd = 64
     model = Policy(heads=heads, feature_dim=fd)
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     # Set-up data recorder
     cwd = os.getcwd()
-    f = open(cwd+'/data/gcpg_trot_walk.csv',"w")
+    f = open(cwd+'/data/scpg_trot_walk.csv',"w")
     writer = csv.writer(f)
 
     # Set start time and time-duratio vector
@@ -68,10 +68,10 @@ if __name__ == '__main__':
             if duration>5:
                 env.desired_lag = walk  
 
-            # Rearrange observation to GNN inputs for graph-CPG
+            # Rearrange observation to GNN inputs for SCPG
             gnn_x = rearrange_state_vector_hopf(state=state, num_nodes=cell_num).to(device)
 
-            # Obtain external coupling terms through graph-CPG
+            # Obtain external coupling terms through SCPG
             with torch.no_grad():
                 action = model(gnn_x, edge_index)
                 action.clamp_(-1, 1)
