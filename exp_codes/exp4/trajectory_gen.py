@@ -72,7 +72,7 @@ class TrajGenerator(object):
         self.duration_traj = {str(i): [] for i in range(1, 7)}
         self.t_traj = {str(i): [] for i in range(1, 7)}
         # Subscribe to gait phase data from ROS topic
-        self.gait_sub = rospy.Subscriber('/g_cpg_gait', Float32MultiArray, self.gait_cb)
+        self.gait_sub = rospy.Subscriber('/scpg_gait', Float32MultiArray, self.gait_cb)
         # Track phase for each leg
         self.phase = [0] * 6
         # Track last update time for each leg
