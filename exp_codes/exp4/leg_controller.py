@@ -57,7 +57,7 @@ class LegController(object):
         # Publisher for operating legs data
         self.leg_pub = rospy.Publisher('operating_legs', Float32MultiArray, queue_size=10)
         # Subscriber for gait phase data
-        self.gait_all_sub = rospy.Subscriber('/g_cpg_gait_all', Float32MultiArray, self.all_gait_cb)
+        self.gait_all_sub = rospy.Subscriber('/scpg_gait_all', Float32MultiArray, self.all_gait_cb)
         # Store gait phase data for all legs
         self.all_gait = np.zeros(6)
 
