@@ -2,11 +2,11 @@ import torch
 import sys, os
 import numpy as np
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import Policy # import graph-CPG architecture
+from agent.networks import Policy # import SCPG architecture
 # from environment.env import CPGEnv
 from environment.env_torch import CPGEnv
 from utils import rearrange_state_vector_hopf,generate_edge_idx_k, state_to_goal_torch1,rearrange_state_vector_torch
@@ -67,10 +67,10 @@ def get_phase_data_ctrl(cell_num, edge_index, model, env, target, length, Kp, Kd
         # last_error = error
         last_error.copy_(error)
 
-        # Rearrange observation to GNN inputs for graph-CPG
+        # Rearrange observation to GNN inputs for SCPG
         gnn_x = rearrange_state_vector_torch(state=state.half(), num_nodes=cell_num).half()
 
-        # Obtain external coupling terms through graph-CPG
+        # Obtain external coupling terms through SCPG
         with torch.no_grad():
             action = model(gnn_x, edge_index)
             action.clamp_(-1, 1)
@@ -103,7 +103,7 @@ def get_phase_data_ctrl(cell_num, edge_index, model, env, target, length, Kp, Kd
 if __name__ == '__main__':
     profiler = cProfile.Profile()
     
-    # Set-up the graph-CPG model, with 8 attention heads
+    # Set-up the SCPG model, with 8 attention heads
     heads = 8
     fd = 64
     model = Policy(heads=heads, feature_dim=fd)
@@ -146,7 +146,7 @@ if __name__ == '__main__':
         for k in np.arange(1,cell_num,1):
             edge_index = generate_edge_idx_k(cell_num, k).to(device) # this function generate the graph-adjancy matrix for sparse networks based on the nearest-neighboring rule.
 
-            # Initialize the SPD vectors for both controlled and standard graph-CPG
+            # Initialize the SPD vectors for both controlled and standard SCPG
             SPD_list_ctrl = np.zeros(dp_num)
             SPD_list = np.zeros(dp_num)
             
