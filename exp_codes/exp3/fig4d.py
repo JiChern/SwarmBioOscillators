@@ -2,11 +2,11 @@ import torch
 import sys, os
 import numpy as np
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import Policy # import graph-CPG architecture
+from agent.networks import Policy # import SCPG architecture
 from environment.env import CPGEnv
 from utils import rearrange_state_vector_hopf,generate_edge_idx, state_to_goal1
 
@@ -64,10 +64,10 @@ def get_phase_data_ctrl(hz,cell_num, edge_index, model, env, target, length, Kp,
         # Record the current error vector for computing the derivative at next loop
         last_error = error
 
-        # Rearrange observation to GNN inputs for graph-CPG
+        # Rearrange observation to GNN inputs for SCPG
         gnn_x = rearrange_state_vector_hopf(state=state, num_nodes=cell_num).to(device)
 
-        # Obtain external coupling terms through graph-CPG
+        # Obtain external coupling terms through SCPG
         with torch.no_grad():
             action = model(gnn_x, edge_index)
             action.clamp_(-1, 1)
@@ -100,7 +100,7 @@ def get_phase_data_ctrl(hz,cell_num, edge_index, model, env, target, length, Kp,
 
 
 if __name__ == '__main__':
-    # Set-up the graph-CPG model, with 8 attention heads
+    # Set-up the SCPG model, with 8 attention heads
     heads = 8
     fd = 64
     model = Policy(heads=heads, feature_dim=fd)
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     traveling_waves = np.arange(0,1,1/cell_num)
 
-    # Get the phase lag lists of both variant of Graph-CPG
+    # Get the phase lag lists of both variant of SCPG
     error_control, angles_ctrl = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=traveling_waves,length=1200, Kp=15,Kd=0.6)  # Controlled G-CPG
     error_no_control, angles_orig = get_phase_data_ctrl(hz=hz, cell_num=cell_num, edge_index=ei, model=model,env=env,target=traveling_waves, length=1200, Kp=0,Kd=0) # Standard G-CPG
 
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     angles_orig_mean = angles_orig.mean(axis=0)
 
 
-    # Figure 1 - controlled graph-CPG results
+    # Figure 1 - controlled SCPG results
     plt.figure(1)
     ax = plt.gca()
     ax.spines['left'].set_position('center')
@@ -173,7 +173,7 @@ if __name__ == '__main__':
     ax.set_aspect('equal')
 
 
-    # Figure 2 - standard graph-CPG results
+    # Figure 2 - standard SCPG results
     plt.figure(2)
     ax = plt.gca()
     ax.spines['left'].set_position('center')
