@@ -3,13 +3,13 @@ import torch_geometric
 import sys, os
 import numpy as np
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import Policy # import graph-CPG architecture
+from agent.networks import Policy # import SCPG architecture
 from environment.env import CPGEnv
-from utils import rearrange_state_vector_hopf,generate_edge_idx # necessary function for data adaptation to GNN-based graph-CPG model and generation of adjacency matrix
+from utils import rearrange_state_vector_hopf,generate_edge_idx # necessary function for data adaptation to GNN-based SCPG model and generation of adjacency matrix
 import matplotlib.pyplot as plt
 
 
@@ -47,10 +47,10 @@ def get_data(cell_num, edge_index, model, env, d0, d1, length):
         if i>800:
             env.desired_lag = d1
 
-        # Rearrange observation to GNN inputs for graph-CPG
+        # Rearrange observation to GNN inputs for SCPG
         gnn_x = rearrange_state_vector_hopf(state=state, num_nodes=cell_num)
 
-        # Obtain external coupling terms through graph-CPG
+        # Obtain external coupling terms through SCPG
         with torch.no_grad():
             action = model(gnn_x, edge_index)
             action.clamp_(-1, 1)
@@ -75,13 +75,13 @@ if __name__ == '__main__':
     heads = 8
     fd = 64
 
-    # Set-up the graph-CPG model
+    # Set-up the SCPG model
     model = Policy(heads=heads, feature_dim=fd)
     model.eval()
     checkpoint = torch.load(parent_dir+'/model_params/model-8-64.pt', weights_only=True)
     model.load_state_dict(checkpoint['policy_state_dict'])
 
-    # Determine which scale of CDS graph-CPG is applied.
+    # Determine which scale of CDS SCPG is applied.
     cell_num = 6
     cell_num = 36
     ei = generate_edge_idx(cell_num=cell_num) # Generate the graph adjancency matrix of CDS
@@ -104,7 +104,7 @@ if __name__ == '__main__':
                                      np.arange(0,1,1/36)                                 # traveling waves 
                                 ])
 
-    # Execute graph-CPG and get data
+    # Execute SCPG and get data
     s_out = get_data(cell_num=cell_num, edge_index=ei, model=model,env=env,d0=env.desired_lag_list[0], d1=env.desired_lag_list[1],length=2000)
     data_dir = os.getcwd()+'/data/'
     np.savetxt(data_dir+'states_'+str(cell_num)+'.csv',s_out, delimiter=",")
