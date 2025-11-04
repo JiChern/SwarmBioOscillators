@@ -95,7 +95,7 @@ class DoubleQFunc(nn.Module):
 class Policy(nn.Module):
     """A Graph Neural Network (GNN) based policy network (actor) for TD3 in graph-structured environments.
     
-    This policy network uses a custom GNN (ActorNet,graph-CPG) to process graph-structured inputs (node features and edge indices) 
+    This policy network uses a custom GNN (ActorNet,SCPG) to process graph-structured inputs (node features and edge indices) 
     and outputs continuous actions. It is designed for environments where the state is represented as a graph (e.g., 
     coupled oscillators, molecular structures). The network applies message passing, aggregates node features, and 
     produces actions through a linear output layer with tanh activation to ensure bounded actions.
@@ -107,7 +107,7 @@ class Policy(nn.Module):
 
     def __init__(self, heads=1, feature_dim=512):
         super(Policy, self).__init__()
-        # Custom GNN-based message passing network for graph-CPG environments
+        # Custom GNN-based message passing network for SCPG environments
         # Input: node features (x_state: 2D), auxiliary features (x_dp: 2D), edge_index
         self.network = ActorNet(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)
                                 state_channels=2,   # State features per node (e.g., 2D coordinates)
@@ -160,7 +160,7 @@ class Policy(nn.Module):
 
 class PolicyV2(nn.Module):
     """ 
-    Standard graph-CPG model of ablation studies, aggregate features in state space.
+    Standard SCPG model for ablation studies, aggregate features in state space.
 
     Notes:
     - Input `x` shape: (num_nodes, 4), where first 2 columns are state features (e.g., x, y oscillator states),
@@ -238,7 +238,7 @@ class PolicyStateSpace(nn.Module):
 
     def __init__(self, heads=1, feature_dim=512):
         super(PolicyStateSpace, self).__init__()
-        # Custom GNN-based message passing network for graph-CPG (coupled oscillator) environments
+        # Custom GNN-based message passing network for SCPG (coupled oscillator) environments
         # Input: node features (x_state: 2D), auxiliary features (x_dp: 2D), edge_index
         self.network = ActorNetStateSpace(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)
                                 state_channels=2,   # State features per node (e.g., 2D coordinates)
@@ -267,7 +267,7 @@ class PolicyStateSpace(nn.Module):
         x_dp = x[:,2:]  # Auxiliary features (e.g., velocities)
         x_state = x[:,0:2]  # State features (e.g., x,y coordinates)
 
-        # Simplified graph-CPG directly outputs the action
+        # Simplified SCPG directly outputs the action
         x_coupling = self.network(x=x_state, x_dp=x_dp, edge_index=edge_index, alpha_noise=alpha_noise)
 
         out = x_coupling

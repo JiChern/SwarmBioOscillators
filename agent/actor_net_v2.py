@@ -46,7 +46,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class ActorNetV2(MessagePassing):
     """
-    An actor network (version 2) for graph-based continuous control, extending PyTorch Geometric's MessagePassing.
+    An SCPG implementation for ablation studies, extending PyTorch Geometric's MessagePassing.
     
     This class implements a graph neural network (GNN) actor that processes graph-structured state inputs (node features 
     and edge attributes) to output continuous actions. It combines desired phase lags with positional encodings (from 

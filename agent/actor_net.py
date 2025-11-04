@@ -1,6 +1,5 @@
 import typing
 import sys, os, csv
-sys.path.append("/home/jichen/graph_cpg/scripts")
 
 '''
 Optional[X] is equivalent to Union[X, None]; Tuple[T1, T2] is a tuple of two elements
@@ -49,7 +48,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class ActorNet(MessagePassing):
 
-    """An actor network for graph-based continuous control, extending PyTorch Geometric's MessagePassing.
+    """Implementation of SCPG model, extending PyTorch Geometric's MessagePassing.
     
     This class implements a graph neural network (GNN) actor that processes graph-structured state inputs (node features 
     and edge attributes) to output continuous actions. It combines desired phase lags  with positional encodings (from 
