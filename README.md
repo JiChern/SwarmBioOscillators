@@ -1,4 +1,4 @@
-# Swarm-Inspired Emergent Synchronization in Biologically Coupled Dynamical Systems
+# SCPG
 A framework that can generate synchronous waveforms with arbitrary phase-lags in arbitrary size of coupled-oscillator-system. Training is very simple!
 
 
@@ -11,7 +11,7 @@ This repository includes code implementations of the paper titled "Swarm-Inspire
 ## Coupled oscillators controlled by distrubuted attention
 In natural swarms---flocking birds, schooling fish, insect colonies---global coordination emerges from local perception and decision-making, without centralized control. Individual agents selectively attend to neighbors based on context, enabling adaptive and scalable collective behavior. Inspired by this, we treat each oscillatory units in a CPG as an intelligent agent that learns how to interact: rather than analyzing the coupling functions, we endow units with attention mechanisms that dynamically weight their influence on neighbors, guided by a population-level objective. This transforms the classical problem of analyzing CDSs from a macrostructural perspective to a microstructural one. In doing so, rigid synchronization becomes an emergent, adaptive process---mirroring biological CPGs while unlocking computational scalability.
 
-This principle underpins graph-CPG, a coupled oscillator framework where interactions are governed by learned attention (Fig.~\ref{fig:intro}d). Analogous to how flocking emerges from simple neighbor-following rules, graph-CPG produces versatile global synchronous behaviors through local attention-weighted coupling. In this model, each oscillator $i$ evolves according to intrinsic dynamics $f(\cdot)$—such as Hopf or Van der Pol oscillators—and an external coupling term $\mathbf{a}_i$ encoding adaptive interactions:
+This principle underpins SCPG, a coupled oscillator framework where interactions are governed by learned attention (Fig.~\ref{fig:intro}d). Analogous to how flocking emerges from simple neighbor-following rules, SCPG produces versatile global synchronous behaviors through local attention-weighted coupling. In this model, each oscillator $i$ evolves according to intrinsic dynamics $f(\cdot)$—such as Hopf or Van der Pol oscillators—and an external coupling term $\mathbf{a}_i$ encoding adaptive interactions:
 
 ```math
 	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{Dense}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
@@ -41,8 +41,8 @@ mamba --version
 
 ### Create virtual environment
 ```console
-mamba create -n g_cpg
-mamba activate g_cpg
+mamba create -n scpg
+mamba activate scpg
 conda config --env --add channels conda-forge
 conda config --env --remove channels defaults
 conda config --env --add channels robostack-noetic
@@ -52,12 +52,12 @@ conda config --env --add channels robostack-noetic
 ```console
 conda install ros-noetic-desktop
 conda deactivate
-conda activate g_cpg
+conda activate scpg
 conda install compilers cmake pkg-config make ninja colcon-common-extensions catkin_tools rosdep
 pip install pybullet
 ```
 
-### Install dependencies for graph-CPG framework
+### Install dependencies for SCPG framework
 ```console
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu118
 pip install torch-scatter torch-sparse torch-cluster torch-spline-conv pyg-lib -f https://data.pyg.org/whl/torch-2.5.0+cu118.html
@@ -68,17 +68,17 @@ pip install torch-geometric
 Training takes about 4 hours, after that 
 # Train the model
 The provided model parameters (located in the 'model_params' folder) requires approximately 10 hours on an RTX 3080 laptop GPU to complete 9e6 training steps. However, after 3–4 hours (around 3e6 steps), it already exhibits initial waveform generation capabilities. You can test the checkpoints using test_model.py.
-Use train.py, you can train graph-CPG with differnent number of attention heads and dimensionalities of feature space.
+Use train.py, you can train SCPG with differnent number of attention heads and dimensionalities of feature space.
 ```console
-conda activate g_cpg
+conda activate scpg
 python train.py --heads=8 --fd=64
 ```
 # Test the model
 ```console
-conda activate g_cpg
+conda activate scpg
 python test_model.py
 ```
-# Simulate a centipede robot in pybullet with graph-CPG
+# Simulate a centipede robot in pybullet with SCPG
 <p align="center">
   <img src="https://github.com/JiChern/SwarmBioOscillators/blob/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
 </p>
@@ -87,21 +87,21 @@ python test_model.py
 ## Step 1: execute the gait generator
 Open a terminal
 ```console
-conda activate g_cpg
+conda activate scpg
 cd simulation
 python gait_generator.py --cell_num=20  #you can adjust --cell_num to any odd number <= 34 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
 ## Step 2: run the simulation script
 Open another terminal
 ```console
-conda activate g_cpg
+conda activate scpg
 cd simulation
 python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
 ## Step 3: Adjust the turning of the centipede
 After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
 ```console
-conda activate g_cpg
+conda activate scpg
 rostopic pub /turning std_msgs/Float32 "data: 0.8" 
 ```
 
