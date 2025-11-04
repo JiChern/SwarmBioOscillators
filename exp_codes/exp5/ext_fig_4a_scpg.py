@@ -4,7 +4,7 @@ from pathlib import Path  # Import Path for handling file paths (gcpg models are
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import PolicyV2 # import graph-CPG architecture
+from agent.networks import PolicyV2 # import SCPG architecture
 from environment.env import CPGEnv
 from utils import rearrange_state_vector_hopf,generate_edge_idx, phase_distance, state_to_goal1
 
@@ -53,7 +53,7 @@ def get_train_error(cell_num, edge_index, model, env):
     Args:
         cell_num (int): Number of cells (nodes) in the graph.
         edge_index (torch.Tensor): Edge indices for the graph.
-        model (Graph-CPG): Trained GNN policy model.
+        model (SCPG): Trained GNN policy model.
         env (CPGEnv): CPG environment instance.
 
     Returns:
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     Notes:
         - Evaluates model checkpoints from 5k to 300k steps (in 5k increments).
         - Computes rewards for predefined gait targets to generate training performance metrics.
-        - Saves cumulative rewards per checkpoint to 'train_error_GCPG.csv' (note: named "error" but stores rewards).
+        - Saves cumulative rewards per checkpoint to 'train_error_SCPG.csv' (note: named "error" but stores rewards).
         - Assumes 4 cells and fixed hyperparameters for PolicyV2.
     """
     # Initialize the PolicyV2 model and set to evaluation mode on device
@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
     # Get current working directory and open CSV file for writing rewards
     cwd = os.getcwd()
-    csvfile = open(cwd + '/data/train_error_GCPG.csv', 'w')
+    csvfile = open(cwd + '/data/train_error_SCPG.csv', 'w')
     writer = csv.writer(csvfile)
 
     # Loop over checkpoint steps from 5k to 300k in 5k increments
