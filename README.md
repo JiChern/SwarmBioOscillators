@@ -2,7 +2,7 @@
 A framework that can generate synchronous waveforms with arbitrary phase-lags in arbitrary size of coupled-oscillator-system. Training is very simple!
 
 
-[Ji Chen](mailto:ji.chenuk@gmail.com), [Song Chen](mailto:math.cs.zju@gmail.com), [Chengzhang Gone](mailto:12532009@zju.edu.cn),  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
+[Ji Chen](mailto:ji.chenuk@gmail.com), [Song Chen](mailto:math.cs.zju@gmail.com), [Chengzhang Gong](mailto:12532009@zju.edu.cn),  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
 
 
 ## Introduction
