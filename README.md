@@ -6,7 +6,7 @@ A framework that can generate synchronous waveforms with arbitrary phase-lags in
 
 
 ## Introduction
-This repository includes code implementations of the paper titled "Swarm-Inspired Emergent Synchronization in Biologically Coupled Dynamical Systems" .
+This repository includes code implementations of the paper titled "From Swarms to Central Pattern Generators: Local Learned Attention Enabling Generalizable Emergent Behaviors" .
 
 ## Coupled oscillators controlled by distrubuted attention
 In natural swarms---flocking birds, schooling fish, insect colonies---global coordination emerges from local perception and decision-making, without centralized control. Individual agents selectively attend to neighbors based on context, enabling adaptive and scalable collective behavior. Inspired by this, we treat each oscillatory units in a CPG as an intelligent agent that learns how to interact: rather than analyzing the coupling functions, we endow units with attention mechanisms that dynamically weight their influence on neighbors, guided by a population-level objective. This transforms the classical problem of analyzing CDSs from a macrostructural perspective to a microstructural one. In doing so, rigid synchronization becomes an emergent, adaptive process---mirroring biological CPGs while unlocking computational scalability.
