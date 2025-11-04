@@ -2,11 +2,11 @@ import torch
 import sys, os
 import numpy as np
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (SCPG models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-from agent.networks import PolicyV2 # import graph-CPG architecture
+from agent.networks import PolicyV2 # import SCPG architecture
 from environment.env import CPGEnv
 from utils import rearrange_state_vector_hopf,generate_edge_idx, state_to_goal1
 
@@ -55,7 +55,7 @@ def get_train_accuracy(cell_num, edge_index, model, env):
     Args:
         cell_num (int): Number of cells (nodes) in the graph.
         edge_index (torch.Tensor): Edge indices for the graph.
-        model (Graph-CPG): Trained GNN policy model.
+        model (SCPG): Trained GNN policy model.
         env (CPGEnv): CPG environment instance.
 
     Returns:
@@ -126,7 +126,7 @@ def get_train_accuracy(cell_num, edge_index, model, env):
 
 if __name__ == '__main__':
 
-    # Set-up the graph-CPG model
+    # Set-up the SCPG model
     model = PolicyV2()
     model.eval().to(device)
 
@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
     # Get current working directory and open CSV file for writing SPDs
     cwd = os.getcwd()
-    csvfile = open(cwd+'/data/train_SPD_GCPG.csv', 'w')
+    csvfile = open(cwd+'/data/train_SPD_SCPG.csv', 'w')
     writer = csv.writer(csvfile)
 
     # Loop over checkpoint steps from 5k to 300k in 5k increments
