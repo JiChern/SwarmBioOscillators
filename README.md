@@ -92,8 +92,9 @@ cd simulation
 python gait_generator.py --cell_num=20  #you can adjust --cell_num to any odd number <= 34 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
 ## Step 2: run the simulation script
-Excute ros core
+Open a new terminal, excute the ros core
 ```console
+conda activate scpg
 roscore
 ```
 Open another terminal
