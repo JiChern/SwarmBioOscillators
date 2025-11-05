@@ -199,7 +199,7 @@ if __name__ == '__main__':
     checkpoint = torch.load(parent_dir + '/model_params/model-8-64.pt', weights_only=True)  # Load pre-trained weights
     model.load_state_dict(checkpoint['policy_state_dict'])
     env = CPGEnv(cell_nums=cell_num, env_length=500, hz=50) 
-    scpg = GraphCPG(network=model, checkpoint=checkpoint, env=env)  
+    scpg = SCPG(network=model, checkpoint=checkpoint, env=env)  
 
     r = rospy.Rate(hz)  # Set ROS loop rate to 50 Hz
     ei = generate_edge_idx(cell_num=cell_num)  # Generate edge indices for GNN
