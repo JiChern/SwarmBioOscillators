@@ -52,6 +52,15 @@ class Salamander:
                 self.w[j, i] = coupling_strength  # Set reverse coupling weight
                 self.phi[j, i] = self.desired_phase_diffs[i] - self.desired_phase_diffs[j]  # Set reverse phase bias
 
+    def set_theta(self, theta):
+        for i in range(self.N):
+            j = (i + 1) % self.N  # Next neighbor (ring wrap-around)
+            self.w[i, j] = 1  # Set coupling weight
+            self.phi[i, j] = theta[j] - theta[i]  # Set phase bias
+            # Bidirectional coupling
+            self.w[j, i] = 1  # Set reverse coupling weight
+            self.phi[j, i] = theta[i] - theta[j]  # Set reverse phase bias
+
     # Method to initialize the system state
     def init(self):
         """
