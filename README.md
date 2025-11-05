@@ -19,7 +19,7 @@ This principle underpins SCPG, a coupled oscillator framework where interactions
 for $i=1,2,\dots,N$, where the dense layer and clamping operation regularize the external coupling term for numerical stability. The attention coefficients $\alpha_{i,j}^k$ weight the importance of the neighbor node $j$ to the source node $i$, and depend on the current states of both nodes $(x_i, x_j)$ as well as their desired phase lags to achieve synchronization $(\theta_i, \theta_j)$. These desired phase lags for achieving synchronization are collected in a vector $x_{dp} = [\theta_1, \dots, \theta_N]$, which defines the target emergent phase behavior of the oscillator network, with each oscillator maintaining a specified phase lag $\theta_i$ relative to the first oscillator.
 
 # Installation
-Prerequisites: Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric.
+Prerequisites: 10GB free space, Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric.
 
 ## Step 1: Install Miniforge (or Mambaforge) for Conda/Mamba:
 Download and install Miniforge (a minimal Conda installer) from https://github.com/conda-forge/miniforge. Choose the version for your OS (e.g., Linux, macOS, Windows).
