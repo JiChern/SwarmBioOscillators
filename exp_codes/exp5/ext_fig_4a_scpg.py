@@ -133,7 +133,7 @@ if __name__ == '__main__':
     # Loop over checkpoint steps from 5k to 300k in 5k increments
     for i in np.arange(5, 305, 5):
         # Load checkpoint from file (assumes specific naming and path)
-        checkpoint = torch.load(cwd + '/checkpoints/GCPG-1-512/model-' + str(i) + '0000-CPG_r_i.pt', weights_only=True) 
+        checkpoint = torch.load(cwd + '/checkpoints/SCPG-1-512/model-' + str(i) + '0000-CPG_r_i.pt', weights_only=True) 
   
         # Load policy state dict into the model
         model.load_state_dict(checkpoint['policy_state_dict'])
