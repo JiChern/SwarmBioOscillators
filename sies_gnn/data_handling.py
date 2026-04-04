@@ -59,52 +59,29 @@ def generate_random_splits(data, train_ratio=0.5, val_ratio=0.25, n_splits=10):
     
     return datalist 
 
-
-
-
-def get_data(data_dir, name, split=0):
-  # path = '../../data/'+name
-  path = data_dir + name
-  dataset = WebKB(path,name=name)
-  
-  data = dataset[0]
-  splits_file = np.load(f'{path}/{name}/raw/{name}_split_0.6_0.2_{split}.npz')
-  train_mask = splits_file['train_mask']
-  val_mask = splits_file['val_mask']
-  test_mask = splits_file['test_mask']
-
-  data.train_mask = torch.tensor(train_mask, dtype=torch.bool)
-  data.val_mask = torch.tensor(val_mask, dtype=torch.bool)
-  data.test_mask = torch.tensor(test_mask, dtype=torch.bool)
-
-  return data
-
 def get_data_1(data_dir, name, split=0):
     path = data_dir + name
     print('data_path: ', path)
-    dataset = HeterophilousGraphDataset(root=path, name=name)  # 更改为 HeterophilousGraphDataset
-    
+    dataset = HeterophilousGraphDataset(root=path, name=name)
+   
     data = dataset[0]
-
     if name == 'roman-empire':
-      splits_file = np.load(f'{path}/{name.replace('-', '_')}/raw/{name.replace('-', '_')}.npz')  # splits 文件路径相同
+        clean_name = name.replace('-', '_')
+        splits_file = np.load(f"{path}/{clean_name}/raw/{clean_name}.npz")
     elif name == 'Amazon-ratings':
-      splits_file = np.load(f'{path}/amazon_ratings/raw/amazon_ratings.npz')  # splits 文件路径相同
+        splits_file = np.load(f"{path}/amazon_ratings/raw/amazon_ratings.npz")
     elif name == 'Minesweeper':
-      splits_file = np.load(f'{path}/minesweeper/raw/minesweeper.npz')  # splits 文件路径相同
+        splits_file = np.load(f"{path}/minesweeper/raw/minesweeper.npz")
     elif name == 'Questions':
-      splits_file = np.load(f'{path}/questions/raw/questions.npz')  # splits 文件路径相同
-
+        splits_file = np.load(f"{path}/questions/raw/questions.npz")
+    
     train_masks = splits_file['train_masks'][split]
     val_masks = splits_file['val_masks'][split]
     test_masks = splits_file['test_masks'][split]
-
+    
     data.train_mask = torch.tensor(train_masks, dtype=torch.bool)
     data.val_mask = torch.tensor(val_masks, dtype=torch.bool)
     data.test_mask = torch.tensor(test_masks, dtype=torch.bool)
-
-
-
     return data
 
 
@@ -120,13 +97,14 @@ def get_data_heter(data_dir, name, n_splits=3):
       split_data = data.clone()
 
       if name == 'roman-empire':
-        splits_file = np.load(f'{path}/{name.replace('-', '_')}/raw/{name.replace('-', '_')}.npz')  
+        clean_name = name.replace('-', '_')
+        splits_file = np.load(f"{path}/{clean_name}/raw/{clean_name}.npz")
       elif name == 'Amazon-ratings':
-        splits_file = np.load(f'{path}/amazon_ratings/raw/amazon_ratings.npz') 
+        splits_file = np.load(f"{path}/amazon_ratings/raw/amazon_ratings.npz") 
       elif name == 'Minesweeper':
-        splits_file = np.load(f'{path}/minesweeper/raw/minesweeper.npz') 
+        splits_file = np.load(f"{path}/minesweeper/raw/minesweeper.npz") 
       elif name == 'Questions':
-        splits_file = np.load(f'{path}/questions/raw/questions.npz') 
+        splits_file = np.load(f"{path}/questions/raw/questions.npz") 
 
       train_masks = splits_file['train_masks'][split]
       val_masks = splits_file['val_masks'][split]
@@ -140,6 +118,7 @@ def get_data_heter(data_dir, name, n_splits=3):
 
 
     return data_list
+
 
 
 
