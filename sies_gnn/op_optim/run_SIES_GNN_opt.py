@@ -212,9 +212,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='training parameters')
 
-    parser.add_argument('--dataset', type=str, default='texas', help='cornell, wisconsin, texas')
-    parser.add_argument('--process', type=int, default=1, help='cornell, wisconsin, texas')
-
+    parser.add_argument('--dataset', type=str, default='roman-empire', help='roman-empire, Amazon-ratings, Minesweeper, Questions')
 
     args = parser.parse_args()
     opt = vars(args)
