@@ -182,7 +182,6 @@ def objective(trial):
                 gc.collect()
             torch.cuda.reset_peak_memory_stats()
             torch.cuda.reset_accumulated_memory_stats()
-            print(f"✅ Trial {trial.number} Split {split} 清理完成 | Allocated: {torch.cuda.memory_allocated()/1e9:.2f} GB")
 
 
     acc = np.mean(best)
@@ -205,8 +204,7 @@ def optimize(storage, study_name, n_trials_per_process):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='training parameters')
-    parser.add_argument('--dataset', type=str, default='texas', help='cornell, wisconsin, texas')
-    parser.add_argument('--process', type=int, default=1, help='cornell, wisconsin, texas')
+    parser.add_argument('--dataset', type=str, default='chameleon', help='chameleon, squirrel')
 
     args = parser.parse_args()
     opt = vars(args)
