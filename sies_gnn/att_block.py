@@ -9,7 +9,7 @@ from torch import Tensor
 from torch.nn import Parameter
 from torch_geometric.typing import Adj, OptTensor, PairTensor
 from torch_geometric.utils import softmax
-from torch_geometric.nn import MessagePassing, PolynormerAttention
+from torch_geometric.nn import MessagePassing
 import math
 from torch_geometric.utils import degree
 
