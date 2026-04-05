@@ -47,8 +47,8 @@ mamba --version
 
 ### Create virtual environment
 ```console
-mamba create -n scpg
-mamba activate scpg
+mamba create -n sies
+mamba activate sies
 conda config --env --add channels conda-forge
 conda config --env --remove channels defaults
 conda config --env --add channels robostack-noetic
@@ -58,12 +58,12 @@ conda config --env --add channels robostack-noetic
 ```console
 conda install ros-noetic-desktop
 conda deactivate
-conda activate scpg
+conda activate sies
 conda install compilers cmake pkg-config make ninja colcon-common-extensions catkin_tools rosdep
 pip install pybullet
 ```
 
-### Install dependencies for SCPG framework
+### Install dependencies for SIES framework
 ```console
 pip install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu118
 pip install torch-scatter torch-sparse torch-cluster torch-spline-conv pyg-lib -f https://data.pyg.org/whl/torch-2.5.0+cu118.html
@@ -76,15 +76,15 @@ Training takes about 4 hours, after that
 The provided model parameters (located in the 'model_params' folder) requires approximately 10 hours on an RTX 3080 laptop GPU to complete 9e6 training steps. However, after 3–4 hours (around 3e6 steps), it already exhibits initial waveform generation capabilities. You can test the checkpoints using test_model.py.
 Use train.py, you can train SCPG with differnent number of attention heads and dimensionalities of feature space.
 ```console
-conda activate scpg
+conda activate sies
 python train.py --heads=8 --fd=64
 ```
-# Test the model
+# Test the trained SIES model
 ```console
-conda activate scpg
+conda activate sies
 python test_model.py
 ```
-# Simulate a centipede robot in pybullet with SCPG
+# Central Pattern Generators: Simulation of Centipede robot Locomotion
 <p align="center">
   <img src="https://github.com/JiChern/SwarmBioOscillators/blob/main/fig/centipede.gif?raw=true" alt="Sublime's custom image"/>
 </p>
@@ -93,27 +93,37 @@ python test_model.py
 ## Step 1: execute the gait generator
 Open a terminal
 ```console
-conda activate scpg
+conda activate sies
 cd simulation
 python gait_generator.py --cell_num=20  #you can adjust --cell_num to any odd number <= 34 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
 ## Step 2: run the simulation script
 Open a new terminal, excute the ros core
 ```console
-conda activate scpg
+conda activate sies
 roscore
 ```
 Open another terminal
 ```console
-conda activate scpg
+conda activate sies
 cd simulation
 python sim_robot.py --seg_num=10  #you can adjust --cell_num to any number <= 17 (if more than 34 legs, pybullet cannot hanle these much joints by default settings)
 ```
 ## Step 3: adjust the turning of the centipede
 After the robot is moving, you can adjust its turning within [-1,1]. Open another terminal:
 ```console
-conda activate scpg
+conda activate sies
 rostopic pub /turning std_msgs/Float32 "data: 0.8" 
+```
+
+# Node Classification on Heterophilous Graph Datasets
+All training and testing programs for node classification are stored in the sies_gnn folder.
+
+## Training
+```console
+conda activate sies
+cd sies_gnn
+python run_GNN.py --dataset=Minesweeper --system=sies
 ```
 
 ## References
