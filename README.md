@@ -5,7 +5,7 @@ This is a study on coupled dynamical systems, covering two fundamental aspects:
 (1) It introduces a learning-based coupled dynamical system (SIES) that models local coupling quantities as signed graph attention. This enables the dynamical system to emerge synchronization modes with arbitrary phase differences across networks of any scale. Experiments demonstrate that SIES can function as a central pattern generator (CPG) to produce gaits for multi-legged robots with any number of legs, while also enhancing the robot’s resiliency to limb damage.
 
 
-(2) Leveraging SIES’s rich oscillatory modes and high-quality phase dynamics in networks of any size, it is directly applied as a graph neural network for node classification tasks. It achieves excellent performance on heterophilous graph datasets such as Roman-Empire. Notably, SIES-GNN can act like a “centrifuge,” continuously rotating the states of all nodes and segregating nodes of different classes into distinct spatial regions with different phase differences.
+(2) Leveraging SIES’s rich oscillatory modes and high-quality phase dynamics in networks of any size, it is directly applied as a graph neural network for node classification tasks. It achieves SOTA performance on heterophilous graph datasets. Notably, SIES-GNN can act like a “centrifuge,” continuously rotating the states of all nodes and segregating nodes of different classes into distinct spatial regions with different phase differences.
 
 
 [Ji Chen](mailto:ji.chenuk@gmail.com), [Song Chen](mailto:math.cs.zju@gmail.com), [Chengzhang Gong](mailto:12532009@zju.edu.cn),  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
