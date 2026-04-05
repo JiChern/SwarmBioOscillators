@@ -126,6 +126,10 @@ cd sies_gnn
 python run_GNN.py --dataset=Minesweeper --system=sies
 ```
 
+<p align="center">
+  <img src="https://github.com/JiChern/SwarmBioOscillators/blob/main/fig/sies_gnn1.jpg?raw=true" alt="Sublime's custom image"/>
+</p>
+
 ## References
 
 <!-- <a id="1">[1]</a> 
