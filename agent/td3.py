@@ -14,7 +14,8 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class TD3_Agent:
 
     def __init__(self, seed, state_dim, action_dim, action_lim=1, lr=3e-4, gamma=0.99, tau=5e-3, batchsize=256, hidden_size=256, 
-                 update_interval=2, buffer_size=1e6, target_noise=0.2, target_noise_clip=0.5, explore_noise=0.1, optimize_alpha=True, heads=1, feature_dim=512):
+                 update_interval=2, buffer_size=1e6, target_noise=0.2, target_noise_clip=0.5, explore_noise=0.1, optimize_alpha=True, heads=1, feature_dim=512, 
+                 signed_att=True,direction_aware=True, state_space_aggr=False):
 
         """Initialize the Twin Delayed Deep Deterministic Policy Gradient (TD3) agent.
         
@@ -76,7 +77,7 @@ class TD3_Agent:
             p.requires_grad = False
 
         # aka actor
-        self.policy = Policy(heads=heads,feature_dim=feature_dim).to(device)
+        self.policy = Policy(heads=heads,feature_dim=feature_dim, signed_att=signed_att, direction_aware=direction_aware, state_space_aggr=state_space_aggr).to(device)
         self.target_policy = copy.deepcopy(self.policy)
 
         self.policy.network.optimize_alpha = optimize_alpha

@@ -20,7 +20,6 @@ from torch import Tensor
 pi  = np.pi
 
 
-
 class ReplayPoolGraph(object):
     """A fixed-capacity replay buffer for off-policy reinforcement learning with graph-structured states.
     
