@@ -43,7 +43,7 @@ def train_GNN(opt, split_data):
         model = GraphCON_GAT(nfeat=data.num_features,nhid=params['nhid'], nclass=n_classes, dropout=params['dropout'], e_dropout=params['e_dropout'], nlayers=params['nlayers'], nheads=params['nheads'], 
                                 dt=params['dt'], Ks=params['Ks'], zeta=params['zeta'], omega=params['omega']).to(device)
 
-        optimizer = create_optimizer(model, params['lr'], params['wd'])
+        optimizer = optim.Adam(model.parameters(),lr=params['lr'], weight_decay=params['wd'])
 
 
     elif opt['system'] == 'kuramoto':
@@ -52,7 +52,7 @@ def train_GNN(opt, split_data):
         model = Kuramoto_GAT(nfeat=data.num_features,nhid=params['nhid'], nclass=n_classes, dropout=params['dropout'], e_dropout=params['e_dropout'], 
                             nlayers=params['nlayers'], nheads=params['nheads'], dt=params['dt'], Ks=params['Ks']).to(device)
 
-        optimizer = create_optimizer(model, params['lr'], params['wd'])
+        optimizer = optim.Adam(model.parameters(),lr=params['lr'], weight_decay=params['wd'])
 
 
     elif opt['system'] == 'sies':
@@ -62,9 +62,7 @@ def train_GNN(opt, split_data):
                                 dt=params['dt'], omega=params['omega'], zeta=params['zeta'], Ks=params['Ks']).to(device)
         
 
-        optimizer = create_optimizer(model, params['lr'], params['wd'])
-        for i, group in enumerate(optimizer.param_groups):
-            print(f"Group {i}: weight_decay={group['weight_decay']}, params={len(group['params'])}")
+        optimizer = optim.Adam(model.parameters(),lr=params['lr'], weight_decay=params['wd'])
 
 
 
