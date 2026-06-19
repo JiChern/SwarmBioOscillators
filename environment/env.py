@@ -6,7 +6,7 @@ import torch
 # import random
 from numpy.random import random
 
-class CPGEnv(object):
+class CDSEnv(object):
     """A custom off-policy RL environment for controlling coupled oscillators with graph-structured state observations.
         
         This environment simulates a system of coupled oscillators (e.g., Hopf oscillators) where the agent's goal is to 
@@ -37,8 +37,8 @@ class CPGEnv(object):
             internal_step (int): Current step count within the episode.
     """
 
-    def __init__(self, cell_nums, env_length, hz=None):
-        """Initialize the CPG environment with given parameters.
+    def __init__(self, cell_nums, env_length, hz=None, omega=2*np.pi):
+        """Initialize the CDS environment with given parameters.
         
         Args:
             cell_nums (int): Number of coupled oscillators.
@@ -61,13 +61,22 @@ class CPGEnv(object):
         self.cell_nums = cell_nums
 
         self.env_length = env_length
+        self.omega = omega
 
-        # Predefined desired lag configurations (e.g., for 8 oscillators)
-        self.desired_lag_list = np.array([[0,0.5,0.25,0.75,0.5,0,0.75,0.25],              
-                                            [0,0,0.75,0.75,0.5,0.5,0.25,0.25],       
+        # Predefined desired lag configurations 
+        #(e.g., for 8 oscillators)
+        self.desired_lag_list = np.array([[0,0.5,0.25,0.75,0.5,0,0.75,0.25],       # Trot        
+                                            [0,0,0.75,0.75,0.5,0.5,0.25,0.25],       # Bound
                                             [0,0.5,0.5,0,0,0.5,0.5,0],
-                                            [0,0,0.5,0.5,0,0,0.5,0.5]    
+                                            [0,0,0.5,0.5,0,0,0.5,0.5]    # walk 0 0.25 0 0.75
                                             ])
+        #(e.g., for 4 oscillators)
+        # self.desired_lag_list = np.array([[0, 0.5, 0, 0.5],                 
+        #                                   [0, 0.5, 0.5, 0],
+        #                                   [0, 0, 0.5, 0.5],    
+        #                                   [0, 0.25, 0.5, 0.75]
+        #                                 ])        
+
 
         # Sampling distribution for desired lag configurations
         self.row_index = np.array([0,1,2,3])
@@ -79,6 +88,7 @@ class CPGEnv(object):
         # self.desired_lag = self.desired_lag_list[index,:]
         # self.relative_lags = self.cal_relative_lags(self.desired_lag)
 
+        self.alpha = 10
 
         self.reward_thres = 2e-1
         self.internal_step = 0
@@ -158,6 +168,42 @@ class CPGEnv(object):
 
         self.internal_step = 0
         return obs
+    
+    def reset_ini_states(self, r, ini_state=None):
+        """Reset the environment to an initial state.
+        
+        Args:
+            ini_state (np.ndarray, optional): Initial state of oscillators (shape: [cell_nums, 2]). 
+                If None, samples random initial states. Defaults to None.
+        
+        Returns:
+            np.ndarray: Initial observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+
+        # use this before reset_goal function
+
+        # Random initial state if not provided
+        if ini_state is None:
+            z_x = np.random.uniform(-r,r, self.cell_nums)
+            radius = r*np.ones(self.cell_nums)
+            z_y = np.sqrt(radius*radius-z_x*z_x)
+            z_y = np.where(random(self.cell_nums) > 0.5, -z_y, z_y) 
+            self.z_mat = np.array([z_x,z_y]).transpose()
+            obs = self.z_mat.ravel()
+        
+        else:
+            self.z_mat = np.reshape(ini_state,(self.cell_nums,2))
+            obs = self.z_mat.ravel()
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        # obs = np.concatenate((obs,rl))
+
+        self.internal_step = 0
+        return obs
         
 
     def rotation_mat(self,theta):
@@ -201,16 +247,17 @@ class CPGEnv(object):
             tuple[np.ndarray, np.ndarray]: Derivatives of x and y positions.
         """
 
-        alpha = 10
-        beta = 10
-        omega = 2*np.pi
+        
+        
+        # beta = 10
+        # self.omega = 2*np.pi
 
         mu = np.ones(self.cell_nums)
 
         r_2 = x*x + y*y
 
-        dx = alpha * (mu - r_2) * x - omega * y + ax
-        dy = beta * (mu - r_2) * y + omega * x + ay
+        dx = self.alpha * (mu - r_2) * x - self.omega * y + ax
+        dy = self.alpha * (mu - r_2) * y + self.omega * x + ay
 
         return dx,dy
 
@@ -228,15 +275,58 @@ class CPGEnv(object):
         """
 
         b = 4
-        omega = 2*np.pi
+        # omega = 2*np.pi
+        omega = self.omega
 
-        epsilon = 1
+        epsilon = 4 #1
 
         ones_vec = np.ones(self.cell_nums)
 
         dx = omega*y + epsilon*x*(ones_vec-b*x*x/3) + ax
         dy = -omega*x + ay
         return dx, dy
+    
+    def van_der_pol_ct(self,x,y, ax,ay):
+        """Compute the derivatives for Van der Pol oscillator dynamics.
+        
+        Args:
+            x (np.ndarray): Current x-positions of oscillators.
+            y (np.ndarray): Current y-positions of oscillators.
+            ax (np.ndarray): x-component of external action.
+            ay (np.ndarray): y-component of external action.
+        
+        Returns:
+            tuple[np.ndarray, np.ndarray]: Derivatives of x and y positions.
+        """
+
+        b = 4
+        # omega = 2*np.pi
+        omega = self.omega
+
+        epsilon = 4 #1
+
+        ones_vec = np.ones(self.cell_nums)
+
+        dx = -omega*y + epsilon*x*(ones_vec-b*x*x/3) + ax
+        dy = omega*x + ay
+        return dx, dy
+
+    def damped_oscillator(self, x,y,ax,ay):
+        zeta = 1.5
+        omega = self.omega
+        dx = y + ax
+        dy = -omega**2 * x - 2*zeta*omega * y + ay
+        
+        return dx, dy
+    
+    def damped_oscillator_ct(self, x,y,ax,ay):
+        zeta = 1.5
+        omega = self.omega
+        dx = -y + ax
+        dy = omega**2 * x - 2*zeta*omega * y + ay
+        
+        return dx, dy
+
     
     def damped_spring(self, x,y, ax,ay):
         """Compute the derivatives for damped spring oscillator dynamics.
@@ -314,6 +404,218 @@ class CPGEnv(object):
         self.internal_step += 1
 
         return obs
+
+    def step_env_rms(self, action):
+        """Execute one step of the environment with given actions.
+        
+        Args:
+            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
+        
+        Returns:
+            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+    
+        action = np.reshape(action,(-1,2))
+        action_x = action[:,0]
+        action_y = action[:,1]
+
+        
+
+        x = self.z_mat[:,0]
+        y = self.z_mat[:,1]
+
+        dx, dy = self.hopf(x,y,action_x,action_y)
+        # dx, dy = self.van_der_pol(x,y,action_x,action_y)
+
+        
+
+        self.z_mat[:,0] = x + dx*self.dt
+        self.z_mat[:,1] = y + dy*self.dt
+
+        obs = self.z_mat.ravel()
+ 
+        rms = np.sqrt(np.mean(obs**2, axis=-1, keepdims=True) + 1e-5)
+
+        # obs = obs / rms
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        done = False
+        info = None
+
+
+        self.internal_step += 1
+
+        return obs
+    
+
+
+    def step_env_vdp(self, action):
+        """Execute one step of the environment with given actions.
+        
+        Args:
+            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
+        
+        Returns:
+            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+    
+        action = np.reshape(action,(-1,2))
+        action_x = action[:,0]
+        action_y = action[:,1]
+
+        
+
+        x = self.z_mat[:,0]
+        y = self.z_mat[:,1]
+
+        dx, dy = self.van_der_pol(x,y,action_x,action_y)
+
+        
+
+        self.z_mat[:,0] = x + dx*self.dt
+        self.z_mat[:,1] = y + dy*self.dt
+
+        obs = self.z_mat.ravel()
+ 
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        done = False
+        info = None
+
+
+        self.internal_step += 1
+
+        return obs
+
+    def step_env_vdp_ct(self, action):
+        """Execute one step of the environment with given actions.
+        
+        Args:
+            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
+        
+        Returns:
+            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+    
+        action = np.reshape(action,(-1,2))
+        action_x = action[:,0]
+        action_y = action[:,1]
+
+        
+
+        x = self.z_mat[:,0]
+        y = self.z_mat[:,1]
+
+        dx, dy = self.van_der_pol_ct(x,y,action_x,action_y)
+
+        
+
+        self.z_mat[:,0] = x + dx*self.dt
+        self.z_mat[:,1] = y + dy*self.dt
+
+        obs = self.z_mat.ravel()
+ 
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        done = False
+        info = None
+
+
+        self.internal_step += 1
+
+        return obs
+
+    def step_env_damped(self, action):
+        """Execute one step of the environment with given actions.
+        
+        Args:
+            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
+        
+        Returns:
+            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+    
+        action = np.reshape(action,(-1,2))
+        action_x = action[:,0]
+        action_y = action[:,1]
+
+        
+
+        x = self.z_mat[:,0]
+        y = self.z_mat[:,1]
+
+        dx, dy = self.damped_oscillator(x,y,action_x,action_y)
+
+        
+
+        self.z_mat[:,0] = x + dx*self.dt
+        self.z_mat[:,1] = y + dy*self.dt
+
+        obs = self.z_mat.ravel()
+ 
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        done = False
+        info = None
+
+
+        self.internal_step += 1
+
+        return obs
+    
+    def step_env_damped_ct(self, action):
+        """Execute one step of the environment with given actions.
+        
+        Args:
+            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
+        
+        Returns:
+            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
+        """
+    
+        action = np.reshape(action,(-1,2))
+        action_x = action[:,0]
+        action_y = action[:,1]
+
+        
+
+        x = self.z_mat[:,0]
+        y = self.z_mat[:,1]
+
+        dx, dy = self.damped_oscillator_ct(x,y,action_x,action_y)
+
+        
+
+        self.z_mat[:,0] = x + dx*self.dt
+        self.z_mat[:,1] = y + dy*self.dt
+
+        obs = self.z_mat.ravel()
+ 
+
+
+        rl_encoding = self.encoding_angle(self.desired_lag)
+        obs = np.concatenate((obs,rl_encoding.ravel()))
+
+        done = False
+        info = None
+
+
+        self.internal_step += 1
+
+        return obs
+
 
     def step(self, action):
         """Execute one step of the environment with given actions and compute rewards.

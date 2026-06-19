@@ -5,7 +5,7 @@ import csv
 import torch
 from numpy.random import random  # Can be removed if NumPy random is not needed
 
-class CPGEnv(object):
+class CDSEnv(object):
     """A custom off-policy RL environment for controlling coupled oscillators with graph-structured state observations.
        
         This environment simulates a system of coupled oscillators (e.g., Hopf oscillators) where the agent's goal is to
@@ -34,7 +34,7 @@ class CPGEnv(object):
             internal_step (int): Current step count within the episode.
     """
     def __init__(self, cell_nums, env_length, hz=None, omega=2*np.pi, device='cpu'):
-        """Initialize the CPG environment with given parameters.
+        """Initialize the CDS environment with given parameters.
        
         Args:
             cell_nums (int): Number of coupled oscillators.
