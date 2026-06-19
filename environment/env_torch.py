@@ -6,32 +6,7 @@ import torch
 from numpy.random import random  # Can be removed if NumPy random is not needed
 
 class CDSEnv(object):
-    """A custom off-policy RL environment for controlling coupled oscillators with graph-structured state observations.
-       
-        This environment simulates a system of coupled oscillators (e.g., Hopf oscillators) where the agent's goal is to
-        adjust the relative phases (lags) between oscillators to match a desired configuration. The state includes
-        oscillator positions, and the encoding of the desired phase lags. The agent interacts with the
-        environment by applying continuous actions to the oscillators, and receives rewards based on how closely the
-        relative phases match the desired lags.
-        The environment is designed for off-policy RL algorithms (e.g., TD3, SAC) and integrates with PyTorch for efficient
-        training. The state includes both oscillator positions and desired lag encoding, while actions
-        directly modulate the oscillators' dynamics.
-        Attributes:
-            cell_nums (int): Number of coupled oscillators in the system.
-            env_length (int): Maximum number of steps per episode.
-            damp (float): Damping coefficient for oscillator dynamics (default: 0).
-            x (torch.Tensor): Current x-positions of oscillators (shape: [cell_nums]).
-            v (torch.Tensor): Current velocities of oscillators (shape: [cell_nums]).
-            v_dot (torch.Tensor): Current accelerations of oscillators (shape: [cell_nums]).
-            dt (float): Time step for simulation (default: 0.01).
-            z_mat (torch.Tensor): Matrix of oscillator states (shape: [cell_nums, 2]; columns: x, y).
-            desired_lag_list (torch.Tensor): Predefined list of desired phase lag configurations (shape: [4, 8]).
-            row_index (torch.Tensor): Indices for sampling desired lag configurations (shape: [4]).
-            prob (torch.Tensor): Probability distribution for sampling desired lag configurations (uniform).
-            desired_lag (torch.Tensor): Currently active desired phase lags (shape: [cell_nums]).
-            relative_lags (torch.Tensor): Relative phase lags between oscillators (shape: [cell_nums, cell_nums]).
-            reward_thres (float): Reward threshold for early termination (default: 2e-1).
-            internal_step (int): Current step count within the episode.
+    """ Pytorch version of CDS env
     """
     def __init__(self, cell_nums, env_length, hz=None, omega=2*np.pi, device='cpu'):
         """Initialize the CDS environment with given parameters.
