@@ -51,7 +51,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class SIES_Coupling(MessagePassing):
 
-    """Implementation of SCPG model, extending PyTorch Geometric's MessagePassing.
+    """Implementation of SIES model, extending PyTorch Geometric's MessagePassing.
     
     This class implements a graph neural network (GNN) actor that processes graph-structured state inputs (node features 
     and edge attributes) to output continuous actions. It combines desired phase lags  with positional encodings (from 
@@ -274,19 +274,10 @@ class SIES_Coupling(MessagePassing):
             with torch.no_grad():
                 alpha = self.edge_updater(edge_index, x=(x_dp_l, x_dp_r), edge_attr=edge_attr, alpha_noise=None)
 
-        
-        # # Apply noise to the attention weights during training
-        # if alpha_noise is not None:
-        #     # print(alpha_noise)
-        #     alpha = alpha + alpha_noise
-
-
         self.alpha_value = torch.transpose(alpha.detach(),0,1)
 
-        # Compute attention coefficients using edge updater
-        # alpha = self.edge_updater(edge_index, x=(x_dp_l, x_dp_r), edge_attr=edge_attr)
 
-        row, col = edge_index  # 注意: edge_index是Tensor时是[2, num_edges]
+        row, col = edge_index  
 
         # deg norm similar to GCN
         if self.signed_att:
@@ -409,7 +400,7 @@ class SIES_Coupling(MessagePassing):
 
 class SIES_Coupling_Softmax(MessagePassing):
 
-    """Implementation of SCPG model, extending PyTorch Geometric's MessagePassing.
+    """Implementation of SIES model, extending PyTorch Geometric's MessagePassing.
     
     This class implements a graph neural network (GNN) actor that processes graph-structured state inputs (node features 
     and edge attributes) to output continuous actions. It combines desired phase lags  with positional encodings (from 
