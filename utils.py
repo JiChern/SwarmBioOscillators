@@ -2,7 +2,7 @@ import itertools
 import os
 import random
 from collections import deque, namedtuple
-
+import networkx as nx
 import numpy as np
 import torch
 
@@ -11,11 +11,11 @@ from numpy.random import default_rng
 
 
 
-def make_checkpoint(agent, step_count, env_name, dir_name):
+def make_checkpoint(agent, step_count, dir_name):
     """ Make model checkpoint during the training """
     q_funcs, target_q_funcs, policy = agent.q_funcs, agent.target_q_funcs, agent.policy
     
-    save_path = "checkpoints/"+str(dir_name)+"/model-{}-{}.pt".format(step_count, env_name)
+    save_path = "checkpoints/"+str(dir_name)+"/model-{}.pt".format(step_count)
 
     if not os.path.isdir("checkpoints/"+str(dir_name)):
         os.makedirs("checkpoints/"+str(dir_name))
@@ -299,8 +299,19 @@ def state_to_goal_torch1(state, cell_num):
     if batch_size == 1:
         relative_phases = relative_phases.squeeze(0)
     return relative_phases
+
+
+def generate_small_world_edge_index(cell_num, k=4, p=0.05, seed=42):  # 新增 seed 参数，默认固定值
+    random.seed(seed)  # 设置种子，确保可复现
+    G = nx.watts_strogatz_graph(n=cell_num, k=k, p=p)
+    edges = list(G.edges())
+    edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
+    edge_index = torch.cat([edge_index, edge_index[[1,0]]], dim=1)  # 转为无向
+    return edge_index
+
 if __name__ == '__main__':
 
-    ei = generate_edge_idx(4)
+    ei = generate_edge_idx_k(120,k=20)
+    np.savetxt('ei.csv', ei, delimiter=',', fmt='%d')
     print(ei)
 

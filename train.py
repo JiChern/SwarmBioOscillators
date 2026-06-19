@@ -17,8 +17,7 @@ import torch
 
 from agent.td3 import TD3_Agent
 from utils import make_checkpoint,rearrange_state_vector_hopf
-# from env import CPGEnv
-from environment.env import CPGEnv
+from environment.env import CDSEnv
 
 
 np. set_printoptions(precision=2)
@@ -76,7 +75,7 @@ def train_agent_model_free(agent, env, env_eval, params):
     alpha_noise_scalar = 10
 
     # Initialize progress bar and time tracking
-    max_samples = int(2e6)
+    max_samples = int(3e7)
     start_time = time.time()
     last_time = start_time
     
@@ -120,7 +119,7 @@ def train_agent_model_free(agent, env, env_eval, params):
             # Convert the state vector (with dim 4Nx1) to input matrix (with dim Nx4) of graph neural network 
             gnn_x = rearrange_state_vector_hopf(state=state, num_nodes=8)
 
-            # The action is the graph-CPG's influence to the coupled oscillator network
+            # The action is the coulping terms of CDS produced by SIES
             action = agent.get_action(gnn_x, edge_index, alpha_noise=alpha_noise)
 
             # Propogate the one step in environment based on the action to get the nextstate and reward
@@ -211,8 +210,8 @@ def train_agent_model_free(agent, env, env_eval, params):
             # Save the model checkpoints for further evaluations.
             if cumulative_timestep % save_interval == 0:
                 if save_model:
-                    checkpoint_name = 'multi-goal-'+str(params['heads'])+'-'+str(params['fd'])
-                    make_checkpoint(agent, cumulative_timestep, params['env'], checkpoint_name)
+                    checkpoint_name = 'test-'+str(params['heads'])+'-'+str(params['fd'])
+                    make_checkpoint(agent, cumulative_timestep, checkpoint_name)
                     logging.info(f'Model checkpoint saved at step {cumulative_timestep}: {checkpoint_name}')
         
         episode_steps.append(time_step)
@@ -256,7 +255,7 @@ def evaluate_agent(env, agent):
 def main():
     
     parser = ArgumentParser()
-    parser.add_argument('--env', type=str, default='CPG_r_i')
+    parser.add_argument('--env', type=str, default='')
     parser.add_argument('--seed', type=int, default=100)
     parser.add_argument('--use_obs_filter', dest='obs_filter', action='store_true')
     parser.add_argument('--update_every_n_steps', type=int, default=20)
@@ -293,11 +292,11 @@ def main():
     logging.info(f"Log file: {log_filename}")
 
     # construct the RL environments of 8-cell-coupled oscillators, the maximum steps of and episode is 125.
-    env = CPGEnv(cell_nums=8, env_length=125)  
-    env_eval = CPGEnv(cell_nums=8, env_length=125)
+    env = CDSEnv(cell_nums=8, env_length=125)  
+    env_eval = CDSEnv(cell_nums=8, env_length=125)
 
     # construct the RL agent based on twin-delayed-DDPG.
-    agent = TD3_Agent(seed, state_dim=16+16, action_dim=16, batchsize=512, explore_noise=0.01, lr=4e-5, gamma=0.995, heads=heads, feature_dim = fd) #lr=4e-5
+    agent = TD3_Agent(seed, state_dim=16+16, action_dim=16, batchsize=512, explore_noise=0.01, lr=4e-5, gamma=0.995, heads=heads, feature_dim=fd) #lr=4e-5
 
     train_agent_model_free(agent=agent, env=env, env_eval=env_eval, params=params)
 

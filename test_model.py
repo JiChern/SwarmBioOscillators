@@ -5,10 +5,10 @@ import numpy as np
 
 
 from agent.networks import Policy, DoubleQFunc
-from environment.env import CPGEnv
+from environment.env import CDSEnv
 from utils import rearrange_state_vector_hopf
 import matplotlib.pyplot as plt
-from utils import generate_edge_idx
+from utils import generate_edge_idx, generate_small_world_edge_index,generate_edge_idx_k, generate_edge_idx_synaptic
 
 import csv
 
@@ -74,14 +74,15 @@ def state_to_goal(state, cell_num):
 
     return goal_list
 
-def get_stable_loss(cell_num,model,env, x_dp):
+def get_stable_loss(cell_num,model,env, x_dp, Ks, intrinsic):
     """Evaluate the stable loss of model by computing phase divergence from desired lags.
     
     Args:
         cell_num (int): Number of oscillators.
         model (Policy): Trained policy network (ActorNet).
-        env (CPGEnv): Environment with oscillator dynamics.
+        env (CDSEnv): Environment with oscillator dynamics.
         x_dp (np.ndarray): Desired phase lags (shape: [cell_nums]).
+        Ks (float,>0): coupling strength 
     
     Returns:
         tuple[float, np.ndarray]:
@@ -95,9 +96,9 @@ def get_stable_loss(cell_num,model,env, x_dp):
     edge_index = generate_edge_idx(cell_num).to(device)
 
 
-    done = False
     env.z_mat = np.zeros((cell_num,2))
-    env.z_mat[0,0] = 0.1
+    env.z_mat[:,0] = 1
+    env.z_mat[:,1] = 0
     obs = env.z_mat.ravel()
 
     env.desired_lag = x_dp
@@ -117,9 +118,10 @@ def get_stable_loss(cell_num,model,env, x_dp):
 
         # Disable gradient computation (inference only) and get the action based on model and states
         with torch.no_grad():
-            action = model(gnn_x, edge_index)
-            action.clamp_(-1, 1)
-            action = action.squeeze().cpu().numpy()
+            action = model(gnn_x, edge_index).squeeze().cpu().numpy()
+            # action.clamp_(-1, 1)
+            # action = 3*action.squeeze().cpu().numpy()
+            action = Ks * action
         
         max_angle = 0
 
@@ -134,12 +136,20 @@ def get_stable_loss(cell_num,model,env, x_dp):
         e_out[i] = max_angle*360
 
         # Step the environment with the computed action
-        nextstate = env.step_env(action)
+        if intrinsic == 'hopf':
+            nextstate = env.step_env(action)
+        elif intrinsic == 'damped':
+            nextstate = env.step_env_damped_ct(action)
+        else:
+            nextstate = env.step_env_vdp_ct(action)
         state = nextstate
 
         # Store oscillator states (x-positions) for plotting
         for j in range(cell_num):
-            s_out[j,i] = state[2*j]
+            if intrinsic == 'damped':
+                s_out[j,i] = state[2*j+1] #save y states for better visulization
+            else:
+                s_out[j,i] = state[2*j]
     
     loss = np.mean(e_out[-200:-1])
     return loss, s_out
@@ -148,26 +158,25 @@ def get_stable_loss(cell_num,model,env, x_dp):
 
 if __name__ == '__main__':
     # Number of attention heads and the feature space dimension used in policy
+    cwd = os.getcwd()
+    
     heads = 8
     fd = 64
 
-    # Initialize SCPG network
-    model = Policy(heads=heads, feature_dim=fd)
-
-    # Load model checkpoint 
-    cwd = os.getcwd()
-    checkpoint = torch.load(cwd+'/model_params/model-8-64.pt', weights_only=True)
-
-
-
+    # Initialize SIES network
+    model = Policy(heads=heads, feature_dim=fd, signed_att=True, direction_aware=True)
+    checkpoint = torch.load(cwd+'/model_params/model-11150000.pt', weights_only=True) 
     model.load_state_dict(checkpoint['policy_state_dict'])
+    Ks = 2 #coupling strength
 
-    # Initialize environment (4 coupled oscillators, 500 steps, 100Hz sampling)
-    # you define arbitrary number of nodes, to test the model's generalization ability in different network scale. 
-    cell_num = 16
-    env = CPGEnv(cell_nums=cell_num,env_length=500,hz=100)
 
-    # Desired phase lags (equally spaced around the unit circle)
+    # Initialize CDS environment
+    # you define arbitrary number of nodes, to test the model's generalization ability in different network scales. 
+    cell_num = 64
+    env = CDSEnv(cell_nums=cell_num,env_length=500,hz=100)
+    intrinsic = 'hopf' # or vdp, damped (unseen)
+
+    # Desired phase lags (traveling-waves, equally spaced around the unit circle)    
     x_dp = np.arange(0,1,1/cell_num)
 
     # Optional: Any desired phase lags (commented out by default)
@@ -178,14 +187,16 @@ if __name__ == '__main__':
     # x_dp = rand_angles
 
     # Evaluate the model and get phase divergence and oscillator states
-    loss, s_out = get_stable_loss(cell_num=cell_num,model=model,env=env, x_dp=x_dp)
+    loss, s_out = get_stable_loss(cell_num=cell_num,model=model,env=env, x_dp=x_dp, Ks=Ks, intrinsic=intrinsic)
     print('Desired Phase Lags: ',x_dp, ' Mean phase divergence (in Degree): ', loss)
 
     # Plot oscillator states over time (each line represents one oscillator)
     for i in range(cell_num):
         plt.plot(s_out[i,:], color = [0.5,0+i*(1/cell_num),0+i*(1/cell_num)], label=f'x {i}') 
 
-    plt.legend() 
+    plt.ylim(-1.5,1.5)
+    plt.legend()
     plt.show()
+    
 
 
