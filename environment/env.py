@@ -8,16 +8,13 @@ from numpy.random import random
 
 class CDSEnv(object):
     """A custom off-policy RL environment for controlling coupled oscillators with graph-structured state observations.
+        This environment designed for off-policy RL algorithms (e.g., TD3) that simulates a system of coupled oscillators 
+        (e.g., Hopf, VDP and damped harmonic oscillators).
         
-        This environment simulates a system of coupled oscillators (e.g., Hopf oscillators) where the agent's goal is to 
-        adjust the relative phases (lags) between oscillators to match a desired configuration. The state includes 
-        oscillator positions, and the encoding of the desired phase lags. The agent interacts with the 
+        The agent's goal is to adjust the relative phases (lags) between oscillators to match a desired configuration. 
+        The state includes oscillator positions, and the encoding of the desired phase lags. The agent interacts with this 
         environment by applying continuous actions to the oscillators, and receives rewards based on how closely the 
         relative phases match the desired lags.
-
-        The environment is designed for off-policy RL algorithms (e.g., TD3, SAC) and integrates with PyTorch for efficient 
-        training. The state includes both oscillator positions and desired lag encoding, while actions 
-        directly modulate the oscillators' dynamics.
 
         Attributes:
             cell_nums (int): Number of coupled oscillators in the system.
@@ -28,7 +25,7 @@ class CDSEnv(object):
             v_dot (np.ndarray): Current accelerations of oscillators (shape: [cell_nums]).
             dt (float): Time step for simulation (default: 0.01).
             z_mat (np.ndarray): Matrix of oscillator states (shape: [cell_nums, 2]; columns: x, y).
-            desired_lag_list (np.ndarray): Predefined list of desired phase lag configurations (shape: [4, 8]).
+            desired_lag_list (np.ndarray): Predefined list of desired phase lag configurations (shape: [4, 8]). (used in training)
             row_index (np.ndarray): Indices for sampling desired lag configurations (shape: [4]).
             prob (np.ndarray): Probability distribution for sampling desired lag configurations (uniform).
             desired_lag (np.ndarray): Currently active desired phase lags (shape: [cell_nums]).
@@ -63,19 +60,13 @@ class CDSEnv(object):
         self.env_length = env_length
         self.omega = omega
 
-        # Predefined desired lag configurations 
-        #(e.g., for 8 oscillators)
+        # Predefined desired lag configurations for training
+        #(for 8 oscillators)
         self.desired_lag_list = np.array([[0,0.5,0.25,0.75,0.5,0,0.75,0.25],       # Trot        
                                             [0,0,0.75,0.75,0.5,0.5,0.25,0.25],       # Bound
                                             [0,0.5,0.5,0,0,0.5,0.5,0],
                                             [0,0,0.5,0.5,0,0,0.5,0.5]    # walk 0 0.25 0 0.75
-                                            ])
-        #(e.g., for 4 oscillators)
-        # self.desired_lag_list = np.array([[0, 0.5, 0, 0.5],                 
-        #                                   [0, 0.5, 0.5, 0],
-        #                                   [0, 0, 0.5, 0.5],    
-        #                                   [0, 0.25, 0.5, 0.75]
-        #                                 ])        
+                                            ]) 
 
 
         # Sampling distribution for desired lag configurations
@@ -262,7 +253,7 @@ class CDSEnv(object):
         return dx,dy
 
     def van_der_pol(self,x,y, ax,ay):
-        """Compute the derivatives for Van der Pol oscillator dynamics.
+        """Compute the derivatives for Van der Pol oscillator dynamics. 
         
         Args:
             x (np.ndarray): Current x-positions of oscillators.
@@ -365,7 +356,7 @@ class CDSEnv(object):
         return encoding_mat
 
     def step_env(self, action):
-        """Execute one step of the environment with given actions.
+        """Execute one step of the environment with given actions. (for evaluations)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
@@ -404,56 +395,10 @@ class CDSEnv(object):
         self.internal_step += 1
 
         return obs
-
-    def step_env_rms(self, action):
-        """Execute one step of the environment with given actions.
-        
-        Args:
-            action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
-        
-        Returns:
-            np.ndarray: Next observation (shape: [cell_nums * 2 + cell_nums]).
-        """
-    
-        action = np.reshape(action,(-1,2))
-        action_x = action[:,0]
-        action_y = action[:,1]
-
-        
-
-        x = self.z_mat[:,0]
-        y = self.z_mat[:,1]
-
-        dx, dy = self.hopf(x,y,action_x,action_y)
-        # dx, dy = self.van_der_pol(x,y,action_x,action_y)
-
-        
-
-        self.z_mat[:,0] = x + dx*self.dt
-        self.z_mat[:,1] = y + dy*self.dt
-
-        obs = self.z_mat.ravel()
- 
-        rms = np.sqrt(np.mean(obs**2, axis=-1, keepdims=True) + 1e-5)
-
-        # obs = obs / rms
-
-
-        rl_encoding = self.encoding_angle(self.desired_lag)
-        obs = np.concatenate((obs,rl_encoding.ravel()))
-
-        done = False
-        info = None
-
-
-        self.internal_step += 1
-
-        return obs
-    
 
 
     def step_env_vdp(self, action):
-        """Execute one step of the environment with given actions.
+        """Execute one step of the environment with given actions. (for intrinsic dynamics generalization evaluation)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
@@ -494,7 +439,7 @@ class CDSEnv(object):
         return obs
 
     def step_env_vdp_ct(self, action):
-        """Execute one step of the environment with given actions.
+        """Execute one step of the environment with given actions. (for intrinsic dynamics generalization evaluation)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
@@ -535,7 +480,7 @@ class CDSEnv(object):
         return obs
 
     def step_env_damped(self, action):
-        """Execute one step of the environment with given actions.
+        """Execute one step of the environment with given actions. (for intrinsic dynamics generalization evaluation)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
@@ -576,7 +521,7 @@ class CDSEnv(object):
         return obs
     
     def step_env_damped_ct(self, action):
-        """Execute one step of the environment with given actions.
+        """Execute one step of the environment with given actions. (for intrinsic dynamics generalization evaluation)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
@@ -618,7 +563,7 @@ class CDSEnv(object):
 
 
     def step(self, action):
-        """Execute one step of the environment with given actions and compute rewards.
+        """Execute one step of the environment with given actions and compute rewards. (for RL training)
         
         Args:
             action (np.ndarray): Actions for oscillators (shape: [cell_nums, 2]; columns: x, y).
