@@ -93,7 +93,7 @@ class DoubleQFunc(nn.Module):
 class Policy(nn.Module):
     """A Graph Neural Network (GNN) based policy network (actor) for TD3 in graph-structured environments.
     
-    This policy network uses a custom GNN (ActorNet,SCPG) to process graph-structured inputs (node features and edge indices) 
+    This policy network uses a custom GNN (ActorNet,SIES) to process graph-structured inputs (node features and edge indices) 
     and outputs continuous actions. It is designed for environments where the state is represented as a graph (e.g., 
     coupled oscillators, molecular structures). The network applies message passing, aggregates node features, and 
     produces actions through a linear output layer with tanh activation to ensure bounded actions.
@@ -101,6 +101,9 @@ class Policy(nn.Module):
     Args:
         heads (int, optional): Number of attention heads in the GNN (if applicable). Defaults to 1.
         feature_dim (int): Dimension of the intermediate feature representation learned by the GNN. Defaults to 512.
+        signed_att (bool): Determines the usage of signed attetion or softmax attention (Defaults to True).
+        direction_aware (bool): Determines whether the source and target projection matrices are not the same (Defaults to True).
+        state_space_aggr (bool): Determines whether the message aggregation of SIES happens in state space of CDS (Defaults to False).
     """
 
     def __init__(self, heads=1, feature_dim=512, signed_att=True, direction_aware=True, state_space_aggr=False):
@@ -111,7 +114,7 @@ class Policy(nn.Module):
         self.network = SIES_Coupling(in_channels=4,   # Total input features per node (e.g., 4 = 2 state + 2 desired phase encoding)
                                 state_channels=2,   # State features per node (e.g., 2D coordinates)
                                 out_channels=feature_dim,  # Output feature dimension (intermediate representation)
-                                heads=heads,      # Number of attention heads
+                                heads=heads,      
                                 add_self_loops=False,   # Do not add self-loops to edges
                                 residual=False,    # No residual connections
                                 dropout=0.2,
