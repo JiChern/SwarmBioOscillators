@@ -39,7 +39,8 @@ def load_policy(heads=8, feature_dim=64, checkpoint_path=None, device=DEVICE, **
     model.eval().to(device)
 
     if checkpoint_path is None:
-        checkpoint_path = PARENT_DIR / "model_params" / f"model-{heads}-{feature_dim}.pt"
+        # checkpoint_path = PARENT_DIR / "model_params" / f"model-{heads}-{feature_dim}.pt"
+        checkpoint_path = PARENT_DIR / "model_params" / f"model-11150000.pt"
 
     checkpoint = torch.load(checkpoint_path, weights_only=True, map_location=device)
     model.load_state_dict(checkpoint["policy_state_dict"])
