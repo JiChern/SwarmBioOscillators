@@ -1,4 +1,4 @@
-# Swarm Inspired Emergent Synchronizer (SIES)
+# Swarm-inspired Emergent Synchronizer (SIES)
 This is a study on coupled dynamical systems, covering two fundamental aspects:
 
 
