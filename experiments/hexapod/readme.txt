@@ -1,1 +1,1 @@
-This folder contains the necessary code to perform fault-tolerant locomotion on a hexapod robot.
+This folder contains the files related to the SIES-based fault-tolerant gait generator on the PC side.
