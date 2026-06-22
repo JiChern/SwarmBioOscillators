@@ -1,5 +1,5 @@
 # Swarm-inspired Emergent Synchronizer (SIES)
-This is a study on coupled dynamical systems, covering two fundamental aspects:
+This is a study on graph dynamical systems, covering two fundamental aspects:
 
 
 (1) It introduces a learning-based coupled dynamical system (SIES) that models local coupling quantities as signed graph attention. This enables the dynamical system to emerge synchronization modes with arbitrary phase differences across networks of any scale. Experiments demonstrate that SIES can function as a central pattern generator (CPG) to produce gaits for multi-legged robots with any number of legs, while also enhancing the robot’s resiliency to limb damage.
@@ -11,18 +11,6 @@ This is a study on coupled dynamical systems, covering two fundamental aspects:
 [Ji Chen](mailto:ji.chenuk@gmail.com), [Song Chen](mailto:math.cs.zju@gmail.com), [Chengzhang Gong](mailto:12532009@zju.edu.cn),  [Li Fan](mailto:fanli77@zju.edu.cn) and [Chao Xu](mailto:cxu@edu.zju.cn)
 
 
-## Introduction
-This repository includes code implementations of the paper titled "From Swarms to Central Pattern Generators: Local Learned Attention Enabling Generalizable Emergent Behaviors" .
-
-## Coupled oscillators controlled by distrubuted attention
-In natural swarms---flocking birds, schooling fish, insect colonies---global coordination emerges from local perception and decision-making, without centralized control. Individual agents selectively attend to neighbors based on context, enabling adaptive and scalable collective behavior. Inspired by this, we treat each oscillatory units in a CPG as an intelligent agent that learns how to interact: rather than analyzing the coupling functions, we endow units with attention mechanisms that dynamically weight their influence on neighbors, guided by a population-level objective. This transforms the classical problem of analyzing CDSs from a macrostructural perspective to a microstructural one. In doing so, rigid synchronization becomes an emergent, adaptive process---mirroring biological CPGs while unlocking computational scalability.
-
-This principle underpins SCPG, a coupled oscillator framework where interactions are governed by learned attention (Fig.~\ref{fig:intro}d). Analogous to how flocking emerges from simple neighbor-following rules, SCPG produces versatile global synchronous behaviors through local attention-weighted coupling. In this model, each oscillator $i$ evolves according to intrinsic dynamics $f(\cdot)$—such as Hopf or Van der Pol oscillators—and an external coupling term $\mathbf{a}_i$ encoding adaptive interactions:
-
-```math
-	\dot{\mathbf{x}}_i = f(\mathbf{x}_i) + \text{clamp}\left[\text{Dense}\left(\frac{1}{K}\sum_{k}\sum_{j \in \mathcal{N}(i)} \alpha_{i,j}^k \Theta_t \mathbf{x}_j\right), -1, 1\right],  
-```
-for $i=1,2,\dots,N$, where the dense layer and clamping operation regularize the external coupling term for numerical stability. The attention coefficients $\alpha_{i,j}^k$ weight the importance of the neighbor node $j$ to the source node $i$, and depend on the current states of both nodes $(x_i, x_j)$ as well as their desired phase lags to achieve synchronization $(\theta_i, \theta_j)$. These desired phase lags for achieving synchronization are collected in a vector $x_{dp} = [\theta_1, \dots, \theta_N]$, which defines the target emergent phase behavior of the oscillator network, with each oscillator maintaining a specified phase lag $\theta_i$ relative to the first oscillator.
 
 # Installation
 Prerequisites: 10GB free space, Ubuntu 20.04, Miniforge toolkits, torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1, torch-scatter torch-sparse, torch-cluster, torch-spline-conv, pyg-lib and torch-geometric.
