@@ -1,1 +1,3 @@
 This folder contains the files related to the SIES-based fault-tolerant gait generator on the PC side.
+
+sies_cpg_gait_generator.py: Based on ROS and the core SIES modules, this file subscribes to the 'operating_legs' topic from the remote robot. The received message [arr1, arr2] contains the indices of currently active legs (arr1) and the desired gait pattern (arr2, e.g., tripod gait or 5-leg wave gait). The gait generator then computes the appropriate CDS coupling terms for the current topology and target gait in real time, controls the CDS environment in test_env.py to produce gait signals, and publishes them back to the robot via the 'cpg_gait' topic.
