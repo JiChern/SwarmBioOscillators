@@ -6,13 +6,13 @@ import rospy, time
 import math  # 
 from std_msgs.msg import Float32MultiArray  # Import ROS message type for publishing gait data
 
-from pathlib import Path  # Import Path for handling file paths (gcpg models are in the parent path)
+from pathlib import Path  # Import Path for handling file paths (sies models are in the parent path)
 parent_dir = str(Path(__file__).parent.parent)  # Set parent directory path for importing modules and loading files
 sys.path.append(parent_dir)  # Add parent directory to system path
 
-# Import custom modules: GCPG-Polic, CPG environment, utility functions
+# Import custom modules: SIES-Policy, CDS environment, utility functions
 from agent.networks import Policy
-from environment.env import CPGEnv
+from environment.env import CDSEnv
 from utils import rearrange_state_vector_hopf
 import matplotlib.pyplot as plt  
 from utils import generate_edge_idx  # functin for calculate adjacency matrix for a graph structure
@@ -23,8 +23,8 @@ from argparse import ArgumentParser  # Import ArgumentParser for command-line ar
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('device: ', device)
 
-# Load pre-trained GCPG model checkpoint
-checkpoint = torch.load(parent_dir+'/model_params/model-8-64.pt', weights_only=True)
+# Load model checkpoint
+checkpoint = torch.load(parent_dir+'/model_params/model-11150000.pt', weights_only=True)
 
 
 
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     heads = 8  
     fd = 64  
 
-    # Initialize GCPG policy network
+    # Initialize SIES policy network
     model = Policy(heads=heads, feature_dim=fd).to(device)  # Create Policy model and move to device
 
     # Load model checkpoint 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     model.eval()  # Set model to evaluation mode
 
     hz = 100  # Simulation frequency (Hz)
-    env = CPGEnv(cell_nums=cell_num,env_length=500,hz=hz)  # Initialize CPG environment
+    env = CDSEnv(cell_nums=cell_num,env_length=500,hz=hz)  # Initialize CDS environment
     env.omega = np.pi*2  # Set angular frequency for oscillators
     edge_index = generate_edge_idx(cell_num).to(device=device)  # Generate edge indices for graph and move to device
 
